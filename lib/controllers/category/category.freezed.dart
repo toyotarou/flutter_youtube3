@@ -1,0 +1,204 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'category.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+/// @nodoc
+mixin _$CategoryState {
+  List<CategoryModel> get categoryList => throw _privateConstructorUsedError;
+  String get selectedCategory1 => throw _privateConstructorUsedError;
+  String get selectedCategory2 => throw _privateConstructorUsedError;
+
+  /// Create a copy of CategoryState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CategoryStateCopyWith<CategoryState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CategoryStateCopyWith<$Res> {
+  factory $CategoryStateCopyWith(
+          CategoryState value, $Res Function(CategoryState) then) =
+      _$CategoryStateCopyWithImpl<$Res, CategoryState>;
+  @useResult
+  $Res call(
+      {List<CategoryModel> categoryList,
+      String selectedCategory1,
+      String selectedCategory2});
+}
+
+/// @nodoc
+class _$CategoryStateCopyWithImpl<$Res, $Val extends CategoryState>
+    implements $CategoryStateCopyWith<$Res> {
+  _$CategoryStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CategoryState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? categoryList = null,
+    Object? selectedCategory1 = null,
+    Object? selectedCategory2 = null,
+  }) {
+    return _then(_value.copyWith(
+      categoryList: null == categoryList
+          ? _value.categoryList
+          : categoryList // ignore: cast_nullable_to_non_nullable
+              as List<CategoryModel>,
+      selectedCategory1: null == selectedCategory1
+          ? _value.selectedCategory1
+          : selectedCategory1 // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedCategory2: null == selectedCategory2
+          ? _value.selectedCategory2
+          : selectedCategory2 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CategoryStateImplCopyWith<$Res>
+    implements $CategoryStateCopyWith<$Res> {
+  factory _$$CategoryStateImplCopyWith(
+          _$CategoryStateImpl value, $Res Function(_$CategoryStateImpl) then) =
+      __$$CategoryStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<CategoryModel> categoryList,
+      String selectedCategory1,
+      String selectedCategory2});
+}
+
+/// @nodoc
+class __$$CategoryStateImplCopyWithImpl<$Res>
+    extends _$CategoryStateCopyWithImpl<$Res, _$CategoryStateImpl>
+    implements _$$CategoryStateImplCopyWith<$Res> {
+  __$$CategoryStateImplCopyWithImpl(
+      _$CategoryStateImpl _value, $Res Function(_$CategoryStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CategoryState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? categoryList = null,
+    Object? selectedCategory1 = null,
+    Object? selectedCategory2 = null,
+  }) {
+    return _then(_$CategoryStateImpl(
+      categoryList: null == categoryList
+          ? _value._categoryList
+          : categoryList // ignore: cast_nullable_to_non_nullable
+              as List<CategoryModel>,
+      selectedCategory1: null == selectedCategory1
+          ? _value.selectedCategory1
+          : selectedCategory1 // ignore: cast_nullable_to_non_nullable
+              as String,
+      selectedCategory2: null == selectedCategory2
+          ? _value.selectedCategory2
+          : selectedCategory2 // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CategoryStateImpl implements _CategoryState {
+  const _$CategoryStateImpl(
+      {final List<CategoryModel> categoryList = const <CategoryModel>[],
+      this.selectedCategory1 = '',
+      this.selectedCategory2 = ''})
+      : _categoryList = categoryList;
+
+  final List<CategoryModel> _categoryList;
+  @override
+  @JsonKey()
+  List<CategoryModel> get categoryList {
+    if (_categoryList is EqualUnmodifiableListView) return _categoryList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categoryList);
+  }
+
+  @override
+  @JsonKey()
+  final String selectedCategory1;
+  @override
+  @JsonKey()
+  final String selectedCategory2;
+
+  @override
+  String toString() {
+    return 'CategoryState(categoryList: $categoryList, selectedCategory1: $selectedCategory1, selectedCategory2: $selectedCategory2)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CategoryStateImpl &&
+            const DeepCollectionEquality()
+                .equals(other._categoryList, _categoryList) &&
+            (identical(other.selectedCategory1, selectedCategory1) ||
+                other.selectedCategory1 == selectedCategory1) &&
+            (identical(other.selectedCategory2, selectedCategory2) ||
+                other.selectedCategory2 == selectedCategory2));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_categoryList),
+      selectedCategory1,
+      selectedCategory2);
+
+  /// Create a copy of CategoryState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CategoryStateImplCopyWith<_$CategoryStateImpl> get copyWith =>
+      __$$CategoryStateImplCopyWithImpl<_$CategoryStateImpl>(this, _$identity);
+}
+
+abstract class _CategoryState implements CategoryState {
+  const factory _CategoryState(
+      {final List<CategoryModel> categoryList,
+      final String selectedCategory1,
+      final String selectedCategory2}) = _$CategoryStateImpl;
+
+  @override
+  List<CategoryModel> get categoryList;
+  @override
+  String get selectedCategory1;
+  @override
+  String get selectedCategory2;
+
+  /// Create a copy of CategoryState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CategoryStateImplCopyWith<_$CategoryStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

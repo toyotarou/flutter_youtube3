@@ -21,6 +21,7 @@ class VideoState with _$VideoState {
     @Default(<String, VideoModel>{}) Map<String, VideoModel> videoModelMap,
     @Default(<String, CategoryModel>{})
     Map<String, CategoryModel> bunruiBlankSettingMap,
+    @Default(<String>[]) List<String> selectedYoutubeIdList,
   }) = _VideoState;
 }
 
@@ -139,5 +140,40 @@ class Video extends _$Video {
     map[youtubeId] = CategoryModel(
         category1: category1, category2: category2, bunrui: bunrui);
     state = state.copyWith(bunruiBlankSettingMap: map);
+  }
+
+  ///
+  void setSelectedYoutubeIdList({required String youtubeId}) {
+    final List<String> list = <String>[...state.selectedYoutubeIdList];
+
+    if (list.contains(youtubeId)) {
+      list.remove(youtubeId);
+    } else {
+      list.add(youtubeId);
+    }
+
+    state = state.copyWith(selectedYoutubeIdList: list);
+  }
+
+  ///
+  Future<void> manipulateVideoList({required String bunrui}) async {
+    final Utility utility = Utility();
+
+    final HttpClient client = ref.read(httpClientProvider);
+
+    final List<String> youtubeIdList = <String>[...state.selectedYoutubeIdList];
+
+    final List<String> list = <String>[];
+    for (final String element in youtubeIdList) {
+      if (element != '') {
+        list.add("'$element'");
+      }
+    }
+
+    await client.post(path: APIPath.bunruiYoutubeData, body: <String, dynamic>{
+      'bunrui': bunrui,
+      'youtube_id': list.join(',')
+    // ignore: always_specify_types
+    }).catchError((error, _) => utility.showError('予期せぬエラーが発生しました'));
   }
 }

@@ -7,6 +7,8 @@ import '../controllers/video/video.dart';
 import '../extensions/extensions.dart';
 import '../models/category_model.dart';
 import '../models/video_model.dart';
+import 'components/video_detail_display_alert.dart';
+import 'components/youtube_dialog.dart';
 
 class BunruiScreen extends ConsumerStatefulWidget {
   const BunruiScreen({super.key});
@@ -33,6 +35,9 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
 
     final String selectedCategory1 = ref.watch(categoryProvider
         .select((CategoryState value) => value.selectedCategory1));
+
+    final List<VideoModel> bunruiBlankVideoList =
+        ref.watch(videoProvider.select((VideoState value) => value.videoList));
 
     return Scaffold(
       appBar: AppBar(),
@@ -76,18 +81,14 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
                           }).toList()),
                     ),
                   ),
-                  SizedBox(
-                    height: 50,
-                    child: displayCategory2Widget(),
-                  ),
+                  SizedBox(height: 50, child: displayCategory2Widget()),
                   SizedBox(
                     height: context.screenSize.height * 0.7,
                     child: Column(
-                      children: <Widget>[
-                        Expanded(child: displayLeftList()),
-                      ],
+                      children: <Widget>[Expanded(child: displayLeftList())],
                     ),
                   ),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       final Map<String, String> bunruiBlankSettingMap =
@@ -102,29 +103,31 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 10),
-          SizedBox(
-            width: 150,
-            child: SingleChildScrollView(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(
-                      color: Colors.greenAccent.withOpacity(0.2),
-                      width: 3,
+          if (bunruiBlankVideoList.isNotEmpty) ...<Widget>[
+            const SizedBox(width: 10),
+            SizedBox(
+              width: 150,
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                        color: Colors.greenAccent.withOpacity(0.2),
+                        width: 3,
+                      ),
                     ),
                   ),
-                ),
-                height: context.screenSize.height * 0.9,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(child: displayRightList()),
-                  ],
+                  height: context.screenSize.height * 0.9,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(child: displayRightList()),
+                    ],
+                  ),
                 ),
               ),
             ),
-          )
+          ],
         ],
       ),
     );
@@ -151,6 +154,9 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
     final Map<String, List<VideoModel>> videoListMap = ref
         .watch(videoProvider.select((VideoState value) => value.videoListMap));
 
+    final List<VideoModel> bunruiBlankVideoList =
+        ref.watch(videoProvider.select((VideoState value) => value.videoList));
+
     final List<Widget> list = <Widget>[];
 
     for (int i = 0; i < bunruiLevelList.length; i++) {
@@ -158,9 +164,13 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white.withOpacity(0.2)),
         ),
-        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        margin: (bunruiBlankVideoList.isEmpty)
+            ? const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 50)
+            : const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         padding: const EdgeInsets.all(5),
-        width: context.screenSize.width * 0.52,
+        width: (bunruiBlankVideoList.isEmpty)
+            ? double.infinity
+            : context.screenSize.width * 0.52,
         height: 200,
         child: DragTarget<VideoModel>(
           // ignore: unnecessary_null_comparison
@@ -205,6 +215,8 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
       ));
     }
 
+    list.add(const SizedBox(height: 40));
+
     return SingleChildScrollView(child: Column(children: list));
   }
 
@@ -222,16 +234,40 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
     if (videoListMap[bunrui] != null) {
       for (final VideoModel element in videoListMap[bunrui]!) {
         list.add(
-          Container(
-            width: 100,
-            padding: const EdgeInsets.all(5),
-            child: CachedNetworkImage(
-              imageUrl:
-                  'https://img.youtube.com/vi/${element.youtubeId}/mqdefault.jpg',
-              placeholder: (BuildContext context, String url) =>
-                  Image.asset('assets/images/no_image.png'),
-              errorWidget: (BuildContext context, String url, Object error) =>
-                  const Icon(Icons.error),
+          GestureDetector(
+            onLongPress: () {
+              YoutubeDialog(
+                context: context,
+                widget: VideoDetailDisplayAlert(videoModel: element),
+                paddingTop: context.screenSize.height * 0.1,
+              );
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: 100,
+                  padding: const EdgeInsets.all(5),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        'https://img.youtube.com/vi/${element.youtubeId}/mqdefault.jpg',
+                    placeholder: (BuildContext context, String url) =>
+                        Image.asset('assets/images/no_image.png'),
+                    errorWidget:
+                        (BuildContext context, String url, Object error) =>
+                            const Icon(Icons.error),
+                  ),
+                ),
+                Positioned(
+                  bottom: 5,
+                  right: 5,
+                  child: Icon(
+                    Icons.star,
+                    color: (element.special == '1')
+                        ? Colors.greenAccent
+                        : Colors.grey,
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -244,43 +280,53 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
   ///
   Widget buildDraggable({required VideoModel videoModel}) {
     // ignore: always_specify_types
-    return Draggable(
-      data: videoModel,
-      feedback: Container(
-        width: 50,
-        margin: const EdgeInsets.all(5),
-        padding: const EdgeInsets.all(5),
-        height: 50,
-        color: Colors.blueAccent.withOpacity(0.5),
-        child: const Scaffold(body: Text('F')),
-      ),
-      childWhenDragging: Container(
-        width: 110,
-        margin: const EdgeInsets.all(5),
-        padding: const EdgeInsets.all(5),
-        height: 50,
-        color: Colors.white.withOpacity(0.1),
-        child: Text(
-          'now dragging',
-          style: TextStyle(color: Colors.white.withOpacity(0.6)),
+    return GestureDetector(
+      onLongPress: () {
+        YoutubeDialog(
+          context: context,
+          widget: VideoDetailDisplayAlert(videoModel: videoModel),
+          paddingTop: context.screenSize.height * 0.1,
+        );
+      },
+      // ignore: always_specify_types
+      child: Draggable(
+        data: videoModel,
+        feedback: Container(
+          width: 50,
+          margin: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
+          height: 50,
+          color: Colors.blueAccent.withOpacity(0.5),
+          child: const Scaffold(body: Text('F')),
         ),
-      ),
-      child: Container(
-        width: 110,
-        margin: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white.withOpacity(0.2)),
+        childWhenDragging: Container(
+          width: 110,
+          margin: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
+          height: 50,
+          color: Colors.white.withOpacity(0.1),
+          child: Text(
+            'now dragging',
+            style: TextStyle(color: Colors.white.withOpacity(0.6)),
+          ),
         ),
         child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(5),
-          child: CachedNetworkImage(
-            imageUrl:
-                'https://img.youtube.com/vi/${videoModel.youtubeId}/mqdefault.jpg',
-            placeholder: (BuildContext context, String url) =>
-                Image.asset('assets/images/no_image.png'),
-            errorWidget: (BuildContext context, String url, Object error) =>
-                const Icon(Icons.error),
+          width: 110,
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white.withOpacity(0.2)),
+          ),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(5),
+            child: CachedNetworkImage(
+              imageUrl:
+                  'https://img.youtube.com/vi/${videoModel.youtubeId}/mqdefault.jpg',
+              placeholder: (BuildContext context, String url) =>
+                  Image.asset('assets/images/no_image.png'),
+              errorWidget: (BuildContext context, String url, Object error) =>
+                  const Icon(Icons.error),
+            ),
           ),
         ),
       ),

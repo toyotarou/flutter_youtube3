@@ -86,4 +86,27 @@ class Category extends _$Category {
   ///
   void clearAdditionalCategoryList() =>
       state = state.copyWith(additionalCategoryList: <CategoryModel>[]);
+
+  ///
+  Future<void> inputBunruiCategory(
+      {required String youtubeId,
+      required String cate1,
+      required String cate2,
+      required String bunrui}) async {
+    // ignore: always_specify_types
+    final uploadData = <String, dynamic>{};
+    uploadData['bunrui'] = bunrui;
+    uploadData['category1'] = cate1;
+    uploadData['category2'] = cate2;
+    uploadData['youtube_id'] = youtubeId;
+
+    final Utility utility = Utility();
+
+    final HttpClient client = ref.read(httpClientProvider);
+
+    await client
+        .post(path: APIPath.oneBunruiInput, body: uploadData)
+        // ignore: always_specify_types
+        .catchError((error, _) => utility.showError('予期せぬエラーが発生しました'));
+  }
 }

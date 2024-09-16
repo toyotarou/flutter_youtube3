@@ -7,6 +7,7 @@ import '../controllers/video/video.dart';
 import '../extensions/extensions.dart';
 import '../models/category_model.dart';
 import '../models/video_model.dart';
+import 'components/bunrui_detail_display_alert.dart';
 import 'components/new_category_input_alert.dart';
 import 'components/video_detail_display_alert.dart';
 import 'components/youtube_dialog.dart';
@@ -134,7 +135,17 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
                           ref.read(videoProvider.select((VideoState value) =>
                               value.bunruiBlankSettingMap));
 
-                      print(bunruiBlankSettingMap);
+                      bunruiBlankSettingMap
+                          .forEach((String key, CategoryModel value) {
+                        ref.read(categoryProvider.notifier).inputBunruiCategory(
+                              youtubeId: key,
+                              cate1: value.category1,
+                              cate2: value.category2,
+                              bunrui: value.bunrui,
+                            );
+                      });
+
+                      Navigator.pop(context);
                     },
                     child: const Text('input'),
                   ),
@@ -226,7 +237,7 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
         width: (bunruiBlankVideoList.isEmpty)
             ? double.infinity
             : context.screenSize.width * 0.52,
-        height: 200,
+        height: 250,
         child: DragTarget<VideoModel>(
           // ignore: unnecessary_null_comparison
           onWillAcceptWithDetails: (DragTargetDetails<VideoModel> data) =>
@@ -252,14 +263,31 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(bunruiLevelList[i]),
-                      Text((videoListMap[bunruiLevelList[i]] != null)
-                          ? videoListMap[bunruiLevelList[i]]!.length.toString()
-                          : '0')
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      YoutubeDialog(
+                        context: context,
+                        widget: BunruiDetailDisplayAlert(
+                            bunrui: bunruiLevelList[i]),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.greenAccent.withOpacity(0.2)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(bunruiLevelList[i]),
+                          Text((videoListMap[bunruiLevelList[i]] != null)
+                              ? videoListMap[bunruiLevelList[i]]!
+                                  .length
+                                  .toString()
+                              : '0')
+                        ],
+                      ),
+                    ),
                   ),
                   Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
                   Wrap(children: getVideoList(bunrui: bunruiLevelList[i])),
@@ -469,8 +497,6 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
         }
       }
     }
-
-    category2List.sort();
 
     for (final String element in category2List) {
       list.add(GestureDetector(

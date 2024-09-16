@@ -90,8 +90,9 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      var bunruiBlankSettingMap = ref.read(videoProvider
-                          .select((value) => value.bunruiBlankSettingMap));
+                      final Map<String, String> bunruiBlankSettingMap =
+                          ref.read(videoProvider.select((VideoState value) =>
+                              value.bunruiBlankSettingMap));
 
                       print(bunruiBlankSettingMap);
                     },

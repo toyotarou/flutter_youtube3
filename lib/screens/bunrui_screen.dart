@@ -243,7 +243,7 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
               );
             },
             child: Stack(
-              children: [
+              children: <Widget>[
                 Container(
                   width: 100,
                   padding: const EdgeInsets.all(5),

@@ -35,7 +35,7 @@ class _VideoDetailDisplayAlertState
             Container(width: context.screenSize.width),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Container(),
                 Icon(
                   Icons.star,
@@ -66,8 +66,8 @@ class _VideoDetailDisplayAlertState
             ),
             const SizedBox(height: 10),
             Row(
-              children: [
-                if (widget.videoModel.url != '') ...[
+              children: <Widget>[
+                if (widget.videoModel.url != '') ...<Widget>[
                   IconButton(
                     onPressed: () {},
                     icon: const Icon(Icons.link, size: 40, color: Colors.white),
@@ -75,7 +75,7 @@ class _VideoDetailDisplayAlertState
                 ],
                 Expanded(
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       if (widget.videoModel.pubdate != null) ...<Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

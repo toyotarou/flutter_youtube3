@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bunrui.dart';
+part of 'video.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bunruiHash() => r'155dab2562ac9c7c442841182e900fbca0238949';
+String _$videoHash() => r'926105ec6ea7e6675f6a09accd6ac619d12f3167';
 
-/// See also [Bunrui].
-@ProviderFor(Bunrui)
-final bunruiProvider = NotifierProvider<Bunrui, BunruiState>.internal(
-  Bunrui.new,
-  name: r'bunruiProvider',
+/// See also [Video].
+@ProviderFor(Video)
+final videoProvider = NotifierProvider<Video, VideoState>.internal(
+  Video.new,
+  name: r'videoProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$bunruiHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$videoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Bunrui = Notifier<BunruiState>;
+typedef _$Video = Notifier<VideoState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

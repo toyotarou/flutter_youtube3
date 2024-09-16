@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/bunrui/bunrui.dart';
 
 import '../controllers/category/category.dart';
+import '../controllers/video/video.dart';
 import '../extensions/extensions.dart';
-import '../models/category.dart';
+import '../models/category_model.dart';
+import '../models/video_model.dart';
 
 class BunruiScreen extends ConsumerStatefulWidget {
   const BunruiScreen({super.key});
@@ -14,6 +15,8 @@ class BunruiScreen extends ConsumerStatefulWidget {
 }
 
 class _BunruiScreenState extends ConsumerState<BunruiScreen> {
+  List<String> bunruiLevelList = <String>[];
+
   ///
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,10 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
                           children: category1List.map((String e) {
                             return GestureDetector(
                               onTap: () {
+                                ref
+                                    .read(categoryProvider.notifier)
+                                    .setSelectedCategory2(category2: '');
+
                                 ref
                                     .read(categoryProvider.notifier)
                                     .setSelectedCategory1(category1: e);
@@ -113,12 +120,25 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
 
   ///
   Widget displayLeftList() {
+    bunruiLevelList.clear();
+
+    final List<CategoryModel> categoryList = ref.watch(
+        categoryProvider.select((CategoryState value) => value.categoryList));
+
+    final String selectedCategory2 = ref.watch(categoryProvider
+        .select((CategoryState value) => value.selectedCategory2));
+
+    for (final CategoryModel element in categoryList) {
+      if (element.category2 == selectedCategory2) {
+        if (!bunruiLevelList.contains(element.bunrui)) {
+          bunruiLevelList.add(element.bunrui);
+        }
+      }
+    }
+
     final List<Widget> list = <Widget>[];
 
-    final List<List<String>> bunruiList = ref
-        .watch(bunruiProvider.select((BunruiState value) => value.bunruiList));
-
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < bunruiLevelList.length; i++) {
       list.add(Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white.withOpacity(0.2)),
@@ -126,34 +146,31 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         padding: const EdgeInsets.all(5),
         width: double.infinity,
-        height: 100,
-        child: DragTarget<String>(
+        height: 200,
+        child: DragTarget<VideoModel>(
           // ignore: unnecessary_null_comparison
-          onWillAcceptWithDetails: (DragTargetDetails<String> data) =>
+          onWillAcceptWithDetails: (DragTargetDetails<VideoModel> data) =>
               // ignore: unnecessary_null_comparison
               null != data,
           // ignore: deprecated_member_use
-          onAccept: (String data) {
+          onAccept: (VideoModel data) {
             setState(() {
-              ref
-                  .read(bunruiProvider.notifier)
-                  .setBunruiList(parentNumber: i, text: data);
+              ref.read(videoProvider.notifier).addVideoListMap(
+                    bunrui: bunruiLevelList[i],
+                    videoModel: data,
+                  );
             });
           },
 
-          builder: (BuildContext context, List<String?> candidateData,
+          builder: (BuildContext context, List<VideoModel?> candidateData,
               List<dynamic> rejectedData) {
             return SingleChildScrollView(
-              child: Wrap(
-                children: bunruiList[i].map((String e) {
-                  if (e != '') {
-                    return Container(
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Text(e));
-                  } else {
-                    return Container();
-                  }
-                }).toList(),
+              child: Column(
+                children: <Widget>[
+                  Text(bunruiLevelList[i]),
+                  Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
+                  Wrap(children: getVideoList(bunrui: bunruiLevelList[i])),
+                ],
               ),
             );
           },
@@ -165,10 +182,34 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
   }
 
   ///
-  Widget buildDraggable({required String text}) {
+  List<Widget> getVideoList({required String bunrui}) {
+    if (bunrui == '') {
+      return <Widget>[];
+    }
+
+    final List<Widget> list = <Widget>[];
+
+    final Map<String, List<VideoModel>> videoListMap = ref
+        .watch(videoProvider.select((VideoState value) => value.videoListMap));
+
+    if (videoListMap[bunrui] != null) {
+      for (final VideoModel element in videoListMap[bunrui]!) {
+        list.add(Text(
+          element.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ));
+      }
+    }
+
+    return list;
+  }
+
+  ///
+  Widget buildDraggable({required VideoModel videoModel}) {
     // ignore: always_specify_types
     return Draggable(
-      data: text,
+      data: videoModel,
       feedback: Container(
         width: 50,
         margin: const EdgeInsets.all(5),
@@ -196,7 +237,7 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white.withOpacity(0.2)),
         ),
-        child: Text(text.padLeft(2, '0')),
+        child: Text(videoModel.title),
       ),
     );
   }
@@ -207,12 +248,12 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
 
     final List<String> jogaiItemList = <String>[];
 
-    ref
-        .watch(bunruiProvider.select((BunruiState value) => value.bunruiList))
-        .forEach((List<String> element) {
-      for (int i = 0; i < element.length; i++) {
-        final String element2 = element[i];
-        jogaiItemList.add(element2);
+    final Map<String, List<VideoModel>> videoListMap = ref
+        .watch(videoProvider.select((VideoState value) => value.videoListMap));
+
+    videoListMap.forEach((String key, List<VideoModel> value) {
+      for (final VideoModel element in value) {
+        jogaiItemList.add(element.title);
       }
     });
 
@@ -220,7 +261,20 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
       final String item = 'child_$i';
 
       if (!jogaiItemList.contains(item)) {
-        list.add(buildDraggable(text: item));
+        list.add(buildDraggable(
+          videoModel: VideoModel(
+            youtubeId: '',
+            title: item,
+            getdate: '',
+            url: '',
+            bunrui: '',
+            special: '',
+            pubdate: null,
+            channelId: '',
+            channelTitle: '',
+            playtime: '',
+          ),
+        ));
       }
     }
 
@@ -269,6 +323,8 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
     for (final String element in category2List) {
       list.add(GestureDetector(
         onTap: () {
+          bunruiLevelList.clear();
+
           ref
               .read(categoryProvider.notifier)
               .setSelectedCategory2(category2: element);

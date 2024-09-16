@@ -1,9 +1,9 @@
 import '../extensions/extensions.dart';
 
-class Holiday {
-  Holiday({required this.data});
+class HolidayModel {
+  HolidayModel({required this.data});
 
-  factory Holiday.fromJson(Map<String, dynamic> json) => Holiday(
+  factory HolidayModel.fromJson(Map<String, dynamic> json) => HolidayModel(
         data: List<DateTime>.from(
             // ignore: always_specify_types
             (json['data'] as List<String>).map((String x) => x.toDateTime())

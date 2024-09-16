@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/http/client.dart';
 import '../../data/http/path.dart';
 import '../../extensions/extensions.dart';
-import '../../models/category.dart';
+import '../../models/category_model.dart';
 import '../../utility/utility.dart';
 
 part 'category.freezed.dart';
@@ -47,7 +47,9 @@ class Category extends _$Category {
               // ignore: avoid_dynamic_calls
               CategoryModel.fromJson(value['data'][i] as Map<String, dynamic>);
 
-          list.add(val);
+          if (val.bunrui != '') {
+            list.add(val);
+          }
         }
       }
 

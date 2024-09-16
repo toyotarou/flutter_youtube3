@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/bunrui/bunrui.dart';
+
 import '../controllers/category/category.dart';
+import '../controllers/video/video.dart';
 import 'bunrui_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -23,14 +24,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onPressed: () {
                 ref.read(categoryProvider.notifier).getCategory();
 
+                ref.read(videoProvider.notifier).getBunruiBlankVideo();
+
+                ref.read(videoProvider.notifier).getYoutubeList();
+
                 ref
                     .read(categoryProvider.notifier)
                     .setSelectedCategory1(category1: '');
                 ref
                     .read(categoryProvider.notifier)
                     .setSelectedCategory2(category2: '');
-
-                ref.read(bunruiProvider.notifier).clearBunruiList();
 
                 Navigator.push(
                   context,

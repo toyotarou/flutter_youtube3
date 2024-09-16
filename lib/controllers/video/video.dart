@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../data/http/client.dart';
 import '../../data/http/path.dart';
 import '../../extensions/extensions.dart';
+import '../../models/category_model.dart';
 import '../../models/video_model.dart';
 import '../../utility/utility.dart';
 
@@ -18,7 +19,8 @@ class VideoState with _$VideoState {
     @Default(<String, List<VideoModel>>{})
     Map<String, List<VideoModel>> videoListMap,
     @Default(<String, VideoModel>{}) Map<String, VideoModel> videoModelMap,
-    @Default(<String, String>{}) Map<String, String> bunruiBlankSettingMap,
+    @Default(<String, CategoryModel>{})
+    Map<String, CategoryModel> bunruiBlankSettingMap,
   }) = _VideoState;
 }
 
@@ -112,24 +114,30 @@ class Video extends _$Video {
       ...state.videoListMap
     };
 
+    List<VideoModel> childList = <VideoModel>[];
+
     if (parentMap[bunrui] != null) {
-      final List<VideoModel> childList = <VideoModel>[...parentMap[bunrui]!];
-
-      childList.add(videoModel);
-
-      parentMap[bunrui] = childList;
-
-      state = state.copyWith(videoListMap: parentMap);
+      childList = <VideoModel>[...parentMap[bunrui]!];
     }
+
+    childList.add(videoModel);
+
+    parentMap[bunrui] = childList;
+
+    state = state.copyWith(videoListMap: parentMap);
   }
 
   ///
   void setBunruiBlankSettingMap(
-      {required String youtubeId, required String bunrui}) {
-    final Map<String, String> map = <String, String>{
+      {required String youtubeId,
+      required String bunrui,
+      required String category1,
+      required String category2}) {
+    final Map<String, CategoryModel> map = <String, CategoryModel>{
       ...state.bunruiBlankSettingMap
     };
-    map[youtubeId] = bunrui;
+    map[youtubeId] = CategoryModel(
+        category1: category1, category2: category2, bunrui: bunrui);
     state = state.copyWith(bunruiBlankSettingMap: map);
   }
 }

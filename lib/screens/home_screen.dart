@@ -22,11 +22,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () {
-                ref.read(categoryProvider.notifier).getCategory();
-
                 ref.read(videoProvider.notifier).getBunruiBlankVideo();
 
                 ref.read(videoProvider.notifier).getYoutubeList();
+
+                ref.read(categoryProvider.notifier).getCategory();
 
                 ref
                     .read(categoryProvider.notifier)
@@ -34,6 +34,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ref
                     .read(categoryProvider.notifier)
                     .setSelectedCategory2(category2: '');
+
+                ref
+                    .read(categoryProvider.notifier)
+                    .clearAdditionalCategoryList();
 
                 Navigator.push(
                   context,

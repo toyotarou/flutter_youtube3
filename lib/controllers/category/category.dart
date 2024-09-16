@@ -17,6 +17,7 @@ class CategoryState with _$CategoryState {
     @Default(<CategoryModel>[]) List<CategoryModel> categoryList,
     @Default('') String selectedCategory1,
     @Default('') String selectedCategory2,
+    @Default(<CategoryModel>[]) List<CategoryModel> additionalCategoryList,
   }) = _CategoryState;
 }
 
@@ -68,4 +69,21 @@ class Category extends _$Category {
   ///
   void setSelectedCategory2({required String category2}) =>
       state = state.copyWith(selectedCategory2: category2);
+
+  ///
+  void setAdditionalCategoryList(
+      {required String category1,
+      required String category2,
+      required String bunrui}) {
+    final List<CategoryModel> list = <CategoryModel>[
+      ...state.additionalCategoryList
+    ];
+    list.add(CategoryModel(
+        category1: category1, category2: category2, bunrui: bunrui));
+    state = state.copyWith(additionalCategoryList: list);
+  }
+
+  ///
+  void clearAdditionalCategoryList() =>
+      state = state.copyWith(additionalCategoryList: <CategoryModel>[]);
 }

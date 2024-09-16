@@ -21,7 +21,7 @@ mixin _$VideoState {
       throw _privateConstructorUsedError;
   Map<String, VideoModel> get videoModelMap =>
       throw _privateConstructorUsedError;
-  Map<String, String> get bunruiBlankSettingMap =>
+  Map<String, CategoryModel> get bunruiBlankSettingMap =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of VideoState
@@ -41,7 +41,7 @@ abstract class $VideoStateCopyWith<$Res> {
       {List<VideoModel> videoList,
       Map<String, List<VideoModel>> videoListMap,
       Map<String, VideoModel> videoModelMap,
-      Map<String, String> bunruiBlankSettingMap});
+      Map<String, CategoryModel> bunruiBlankSettingMap});
 }
 
 /// @nodoc
@@ -80,7 +80,7 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
       bunruiBlankSettingMap: null == bunruiBlankSettingMap
           ? _value.bunruiBlankSettingMap
           : bunruiBlankSettingMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, CategoryModel>,
     ) as $Val);
   }
 }
@@ -97,7 +97,7 @@ abstract class _$$VideoStateImplCopyWith<$Res>
       {List<VideoModel> videoList,
       Map<String, List<VideoModel>> videoListMap,
       Map<String, VideoModel> videoModelMap,
-      Map<String, String> bunruiBlankSettingMap});
+      Map<String, CategoryModel> bunruiBlankSettingMap});
 }
 
 /// @nodoc
@@ -134,7 +134,7 @@ class __$$VideoStateImplCopyWithImpl<$Res>
       bunruiBlankSettingMap: null == bunruiBlankSettingMap
           ? _value._bunruiBlankSettingMap
           : bunruiBlankSettingMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, CategoryModel>,
     ));
   }
 }
@@ -148,7 +148,8 @@ class _$VideoStateImpl implements _VideoState {
           const <String, List<VideoModel>>{},
       final Map<String, VideoModel> videoModelMap =
           const <String, VideoModel>{},
-      final Map<String, String> bunruiBlankSettingMap = const {}})
+      final Map<String, CategoryModel> bunruiBlankSettingMap =
+          const <String, CategoryModel>{}})
       : _videoList = videoList,
         _videoListMap = videoListMap,
         _videoModelMap = videoModelMap,
@@ -181,10 +182,10 @@ class _$VideoStateImpl implements _VideoState {
     return EqualUnmodifiableMapView(_videoModelMap);
   }
 
-  final Map<String, String> _bunruiBlankSettingMap;
+  final Map<String, CategoryModel> _bunruiBlankSettingMap;
   @override
   @JsonKey()
-  Map<String, String> get bunruiBlankSettingMap {
+  Map<String, CategoryModel> get bunruiBlankSettingMap {
     if (_bunruiBlankSettingMap is EqualUnmodifiableMapView)
       return _bunruiBlankSettingMap;
     // ignore: implicit_dynamic_type
@@ -230,10 +231,11 @@ class _$VideoStateImpl implements _VideoState {
 
 abstract class _VideoState implements VideoState {
   const factory _VideoState(
-      {final List<VideoModel> videoList,
-      final Map<String, List<VideoModel>> videoListMap,
-      final Map<String, VideoModel> videoModelMap,
-      final Map<String, String> bunruiBlankSettingMap}) = _$VideoStateImpl;
+          {final List<VideoModel> videoList,
+          final Map<String, List<VideoModel>> videoListMap,
+          final Map<String, VideoModel> videoModelMap,
+          final Map<String, CategoryModel> bunruiBlankSettingMap}) =
+      _$VideoStateImpl;
 
   @override
   List<VideoModel> get videoList;
@@ -242,7 +244,7 @@ abstract class _VideoState implements VideoState {
   @override
   Map<String, VideoModel> get videoModelMap;
   @override
-  Map<String, String> get bunruiBlankSettingMap;
+  Map<String, CategoryModel> get bunruiBlankSettingMap;
 
   /// Create a copy of VideoState
   /// with the given fields replaced by the non-null parameter values.

@@ -19,6 +19,8 @@ mixin _$CategoryState {
   List<CategoryModel> get categoryList => throw _privateConstructorUsedError;
   String get selectedCategory1 => throw _privateConstructorUsedError;
   String get selectedCategory2 => throw _privateConstructorUsedError;
+  List<CategoryModel> get additionalCategoryList =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of CategoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +38,8 @@ abstract class $CategoryStateCopyWith<$Res> {
   $Res call(
       {List<CategoryModel> categoryList,
       String selectedCategory1,
-      String selectedCategory2});
+      String selectedCategory2,
+      List<CategoryModel> additionalCategoryList});
 }
 
 /// @nodoc
@@ -57,6 +60,7 @@ class _$CategoryStateCopyWithImpl<$Res, $Val extends CategoryState>
     Object? categoryList = null,
     Object? selectedCategory1 = null,
     Object? selectedCategory2 = null,
+    Object? additionalCategoryList = null,
   }) {
     return _then(_value.copyWith(
       categoryList: null == categoryList
@@ -71,6 +75,10 @@ class _$CategoryStateCopyWithImpl<$Res, $Val extends CategoryState>
           ? _value.selectedCategory2
           : selectedCategory2 // ignore: cast_nullable_to_non_nullable
               as String,
+      additionalCategoryList: null == additionalCategoryList
+          ? _value.additionalCategoryList
+          : additionalCategoryList // ignore: cast_nullable_to_non_nullable
+              as List<CategoryModel>,
     ) as $Val);
   }
 }
@@ -86,7 +94,8 @@ abstract class _$$CategoryStateImplCopyWith<$Res>
   $Res call(
       {List<CategoryModel> categoryList,
       String selectedCategory1,
-      String selectedCategory2});
+      String selectedCategory2,
+      List<CategoryModel> additionalCategoryList});
 }
 
 /// @nodoc
@@ -105,6 +114,7 @@ class __$$CategoryStateImplCopyWithImpl<$Res>
     Object? categoryList = null,
     Object? selectedCategory1 = null,
     Object? selectedCategory2 = null,
+    Object? additionalCategoryList = null,
   }) {
     return _then(_$CategoryStateImpl(
       categoryList: null == categoryList
@@ -119,6 +129,10 @@ class __$$CategoryStateImplCopyWithImpl<$Res>
           ? _value.selectedCategory2
           : selectedCategory2 // ignore: cast_nullable_to_non_nullable
               as String,
+      additionalCategoryList: null == additionalCategoryList
+          ? _value._additionalCategoryList
+          : additionalCategoryList // ignore: cast_nullable_to_non_nullable
+              as List<CategoryModel>,
     ));
   }
 }
@@ -129,8 +143,11 @@ class _$CategoryStateImpl implements _CategoryState {
   const _$CategoryStateImpl(
       {final List<CategoryModel> categoryList = const <CategoryModel>[],
       this.selectedCategory1 = '',
-      this.selectedCategory2 = ''})
-      : _categoryList = categoryList;
+      this.selectedCategory2 = '',
+      final List<CategoryModel> additionalCategoryList =
+          const <CategoryModel>[]})
+      : _categoryList = categoryList,
+        _additionalCategoryList = additionalCategoryList;
 
   final List<CategoryModel> _categoryList;
   @override
@@ -147,10 +164,19 @@ class _$CategoryStateImpl implements _CategoryState {
   @override
   @JsonKey()
   final String selectedCategory2;
+  final List<CategoryModel> _additionalCategoryList;
+  @override
+  @JsonKey()
+  List<CategoryModel> get additionalCategoryList {
+    if (_additionalCategoryList is EqualUnmodifiableListView)
+      return _additionalCategoryList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_additionalCategoryList);
+  }
 
   @override
   String toString() {
-    return 'CategoryState(categoryList: $categoryList, selectedCategory1: $selectedCategory1, selectedCategory2: $selectedCategory2)';
+    return 'CategoryState(categoryList: $categoryList, selectedCategory1: $selectedCategory1, selectedCategory2: $selectedCategory2, additionalCategoryList: $additionalCategoryList)';
   }
 
   @override
@@ -163,7 +189,9 @@ class _$CategoryStateImpl implements _CategoryState {
             (identical(other.selectedCategory1, selectedCategory1) ||
                 other.selectedCategory1 == selectedCategory1) &&
             (identical(other.selectedCategory2, selectedCategory2) ||
-                other.selectedCategory2 == selectedCategory2));
+                other.selectedCategory2 == selectedCategory2) &&
+            const DeepCollectionEquality().equals(
+                other._additionalCategoryList, _additionalCategoryList));
   }
 
   @override
@@ -171,7 +199,8 @@ class _$CategoryStateImpl implements _CategoryState {
       runtimeType,
       const DeepCollectionEquality().hash(_categoryList),
       selectedCategory1,
-      selectedCategory2);
+      selectedCategory2,
+      const DeepCollectionEquality().hash(_additionalCategoryList));
 
   /// Create a copy of CategoryState
   /// with the given fields replaced by the non-null parameter values.
@@ -186,7 +215,8 @@ abstract class _CategoryState implements CategoryState {
   const factory _CategoryState(
       {final List<CategoryModel> categoryList,
       final String selectedCategory1,
-      final String selectedCategory2}) = _$CategoryStateImpl;
+      final String selectedCategory2,
+      final List<CategoryModel> additionalCategoryList}) = _$CategoryStateImpl;
 
   @override
   List<CategoryModel> get categoryList;
@@ -194,6 +224,8 @@ abstract class _CategoryState implements CategoryState {
   String get selectedCategory1;
   @override
   String get selectedCategory2;
+  @override
+  List<CategoryModel> get additionalCategoryList;
 
   /// Create a copy of CategoryState
   /// with the given fields replaced by the non-null parameter values.

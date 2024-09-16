@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -80,25 +81,35 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
                     child: displayCategory2Widget(),
                   ),
                   SizedBox(
-                    height: context.screenSize.height * 0.8,
+                    height: context.screenSize.height * 0.7,
                     child: Column(
                       children: <Widget>[
                         Expanded(child: displayLeftList()),
                       ],
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      var bunruiBlankSettingMap = ref.read(videoProvider
+                          .select((value) => value.bunruiBlankSettingMap));
+
+                      print(bunruiBlankSettingMap);
+                    },
+                    child: const Text('input'),
+                  ),
                 ],
               ),
             ),
           ),
+          const SizedBox(width: 10),
           SizedBox(
             width: 150,
             child: SingleChildScrollView(
               child: Container(
                 decoration: BoxDecoration(
                   border: Border(
-                    right: BorderSide(
-                      color: Colors.greenAccent.withOpacity(0.4),
+                    left: BorderSide(
+                      color: Colors.greenAccent.withOpacity(0.2),
                       width: 3,
                     ),
                   ),
@@ -136,6 +147,9 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
       }
     }
 
+    final Map<String, List<VideoModel>> videoListMap = ref
+        .watch(videoProvider.select((VideoState value) => value.videoListMap));
+
     final List<Widget> list = <Widget>[];
 
     for (int i = 0; i < bunruiLevelList.length; i++) {
@@ -145,7 +159,7 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
         ),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         padding: const EdgeInsets.all(5),
-        width: double.infinity,
+        width: context.screenSize.width * 0.52,
         height: 200,
         child: DragTarget<VideoModel>(
           // ignore: unnecessary_null_comparison
@@ -154,20 +168,32 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
               null != data,
           // ignore: deprecated_member_use
           onAccept: (VideoModel data) {
-            setState(() {
-              ref.read(videoProvider.notifier).addVideoListMap(
-                    bunrui: bunruiLevelList[i],
-                    videoModel: data,
-                  );
-            });
+            ref.read(videoProvider.notifier).addVideoListMap(
+                  bunrui: bunruiLevelList[i],
+                  videoModel: data,
+                );
+
+            ref.read(videoProvider.notifier).setBunruiBlankSettingMap(
+                  youtubeId: data.youtubeId,
+                  bunrui: bunruiLevelList[i],
+                );
           },
 
           builder: (BuildContext context, List<VideoModel?> candidateData,
               List<dynamic> rejectedData) {
             return SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(bunruiLevelList[i]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(bunruiLevelList[i]),
+                      Text((videoListMap[bunruiLevelList[i]] != null)
+                          ? videoListMap[bunruiLevelList[i]]!.length.toString()
+                          : '0')
+                    ],
+                  ),
                   Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
                   Wrap(children: getVideoList(bunrui: bunruiLevelList[i])),
                 ],
@@ -194,11 +220,20 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
 
     if (videoListMap[bunrui] != null) {
       for (final VideoModel element in videoListMap[bunrui]!) {
-        list.add(Text(
-          element.title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ));
+        list.add(
+          Container(
+            width: 100,
+            padding: const EdgeInsets.all(5),
+            child: CachedNetworkImage(
+              imageUrl:
+                  'https://img.youtube.com/vi/${element.youtubeId}/mqdefault.jpg',
+              placeholder: (BuildContext context, String url) =>
+                  Image.asset('assets/images/no_image.png'),
+              errorWidget: (BuildContext context, String url, Object error) =>
+                  const Icon(Icons.error),
+            ),
+          ),
+        );
       }
     }
 
@@ -232,55 +267,54 @@ class _BunruiScreenState extends ConsumerState<BunruiScreen> {
       child: Container(
         width: 110,
         margin: const EdgeInsets.all(5),
-        padding: const EdgeInsets.all(5),
-        height: 50,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white.withOpacity(0.2)),
         ),
-        child: Text(videoModel.title),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(5),
+          child: CachedNetworkImage(
+            imageUrl:
+                'https://img.youtube.com/vi/${videoModel.youtubeId}/mqdefault.jpg',
+            placeholder: (BuildContext context, String url) =>
+                Image.asset('assets/images/no_image.png'),
+            errorWidget: (BuildContext context, String url, Object error) =>
+                const Icon(Icons.error),
+          ),
+        ),
       ),
     );
   }
 
   ///
   Widget displayRightList() {
-    final List<Widget> list = <Widget>[];
+    final List<VideoModel> bunruiBlankVideoList =
+        ref.watch(videoProvider.select((VideoState value) => value.videoList));
 
-    final List<String> jogaiItemList = <String>[];
+    final List<Widget> list = <Widget>[];
 
     final Map<String, List<VideoModel>> videoListMap = ref
         .watch(videoProvider.select((VideoState value) => value.videoListMap));
 
+    final List<String> jogaiVideoList = <String>[];
     videoListMap.forEach((String key, List<VideoModel> value) {
       for (final VideoModel element in value) {
-        jogaiItemList.add(element.title);
+        if (element.bunrui != '0') {
+          jogaiVideoList.add(element.title);
+        }
       }
     });
 
-    for (int i = 0; i < 100; i++) {
-      final String item = 'child_$i';
-
-      if (!jogaiItemList.contains(item)) {
-        list.add(buildDraggable(
-          videoModel: VideoModel(
-            youtubeId: '',
-            title: item,
-            getdate: '',
-            url: '',
-            bunrui: '',
-            special: '',
-            pubdate: null,
-            channelId: '',
-            channelTitle: '',
-            playtime: '',
-          ),
-        ));
+    for (final VideoModel element in bunruiBlankVideoList) {
+      if (!jogaiVideoList.contains(element.title)) {
+        list.add(buildDraggable(videoModel: element));
       }
     }
 
     return SingleChildScrollView(
-      child: SizedBox(
+      child: Container(
         width: double.infinity,
+        padding: const EdgeInsets.only(left: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,

@@ -17,6 +17,8 @@ class VideoState with _$VideoState {
     @Default(<VideoModel>[]) List<VideoModel> videoList,
     @Default(<String, List<VideoModel>>{})
     Map<String, List<VideoModel>> videoListMap,
+    @Default(<String, VideoModel>{}) Map<String, VideoModel> videoModelMap,
+    @Default(<String, String>{}) Map<String, String> bunruiBlankSettingMap,
   }) = _VideoState;
 }
 
@@ -67,9 +69,9 @@ class Video extends _$Video {
 
     // ignore: always_specify_types
     await client.post(path: APIPath.getYoutubeList).then((value) {
-      final List<VideoModel> list = <VideoModel>[];
-
       final Map<String, List<VideoModel>> map = <String, List<VideoModel>>{};
+
+      final Map<String, VideoModel> map2 = <String, VideoModel>{};
 
       // ignore: avoid_dynamic_calls
       if (value['data'] != null) {
@@ -80,6 +82,8 @@ class Video extends _$Video {
               VideoModel.fromJson(value['data'][i] as Map<String, dynamic>);
 
           map[val.bunrui] = <VideoModel>[];
+
+          map2[val.youtubeId] = val;
         }
 
         // ignore: avoid_dynamic_calls
@@ -89,13 +93,11 @@ class Video extends _$Video {
               // ignore: avoid_dynamic_calls
               VideoModel.fromJson(value['data'][i] as Map<String, dynamic>);
 
-          list.add(val);
-
           map[val.bunrui]?.add(val);
         }
       }
 
-      state = state.copyWith(videoList: list, videoListMap: map);
+      state = state.copyWith(videoListMap: map);
 
       // ignore: always_specify_types
     }).catchError((error, _) {
@@ -119,5 +121,15 @@ class Video extends _$Video {
 
       state = state.copyWith(videoListMap: parentMap);
     }
+  }
+
+  ///
+  void setBunruiBlankSettingMap(
+      {required String youtubeId, required String bunrui}) {
+    final Map<String, String> map = <String, String>{
+      ...state.bunruiBlankSettingMap
+    };
+    map[youtubeId] = bunrui;
+    state = state.copyWith(bunruiBlankSettingMap: map);
   }
 }

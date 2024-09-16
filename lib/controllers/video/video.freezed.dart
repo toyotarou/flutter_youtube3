@@ -19,6 +19,10 @@ mixin _$VideoState {
   List<VideoModel> get videoList => throw _privateConstructorUsedError;
   Map<String, List<VideoModel>> get videoListMap =>
       throw _privateConstructorUsedError;
+  Map<String, VideoModel> get videoModelMap =>
+      throw _privateConstructorUsedError;
+  Map<String, String> get bunruiBlankSettingMap =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of VideoState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +38,10 @@ abstract class $VideoStateCopyWith<$Res> {
       _$VideoStateCopyWithImpl<$Res, VideoState>;
   @useResult
   $Res call(
-      {List<VideoModel> videoList, Map<String, List<VideoModel>> videoListMap});
+      {List<VideoModel> videoList,
+      Map<String, List<VideoModel>> videoListMap,
+      Map<String, VideoModel> videoModelMap,
+      Map<String, String> bunruiBlankSettingMap});
 }
 
 /// @nodoc
@@ -54,6 +61,8 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
   $Res call({
     Object? videoList = null,
     Object? videoListMap = null,
+    Object? videoModelMap = null,
+    Object? bunruiBlankSettingMap = null,
   }) {
     return _then(_value.copyWith(
       videoList: null == videoList
@@ -64,6 +73,14 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
           ? _value.videoListMap
           : videoListMap // ignore: cast_nullable_to_non_nullable
               as Map<String, List<VideoModel>>,
+      videoModelMap: null == videoModelMap
+          ? _value.videoModelMap
+          : videoModelMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, VideoModel>,
+      bunruiBlankSettingMap: null == bunruiBlankSettingMap
+          ? _value.bunruiBlankSettingMap
+          : bunruiBlankSettingMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ) as $Val);
   }
 }
@@ -77,7 +94,10 @@ abstract class _$$VideoStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<VideoModel> videoList, Map<String, List<VideoModel>> videoListMap});
+      {List<VideoModel> videoList,
+      Map<String, List<VideoModel>> videoListMap,
+      Map<String, VideoModel> videoModelMap,
+      Map<String, String> bunruiBlankSettingMap});
 }
 
 /// @nodoc
@@ -95,6 +115,8 @@ class __$$VideoStateImplCopyWithImpl<$Res>
   $Res call({
     Object? videoList = null,
     Object? videoListMap = null,
+    Object? videoModelMap = null,
+    Object? bunruiBlankSettingMap = null,
   }) {
     return _then(_$VideoStateImpl(
       videoList: null == videoList
@@ -105,6 +127,14 @@ class __$$VideoStateImplCopyWithImpl<$Res>
           ? _value._videoListMap
           : videoListMap // ignore: cast_nullable_to_non_nullable
               as Map<String, List<VideoModel>>,
+      videoModelMap: null == videoModelMap
+          ? _value._videoModelMap
+          : videoModelMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, VideoModel>,
+      bunruiBlankSettingMap: null == bunruiBlankSettingMap
+          ? _value._bunruiBlankSettingMap
+          : bunruiBlankSettingMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
     ));
   }
 }
@@ -114,9 +144,15 @@ class __$$VideoStateImplCopyWithImpl<$Res>
 class _$VideoStateImpl implements _VideoState {
   const _$VideoStateImpl(
       {final List<VideoModel> videoList = const <VideoModel>[],
-      final Map<String, List<VideoModel>> videoListMap = const {}})
+      final Map<String, List<VideoModel>> videoListMap =
+          const <String, List<VideoModel>>{},
+      final Map<String, VideoModel> videoModelMap =
+          const <String, VideoModel>{},
+      final Map<String, String> bunruiBlankSettingMap = const {}})
       : _videoList = videoList,
-        _videoListMap = videoListMap;
+        _videoListMap = videoListMap,
+        _videoModelMap = videoModelMap,
+        _bunruiBlankSettingMap = bunruiBlankSettingMap;
 
   final List<VideoModel> _videoList;
   @override
@@ -136,9 +172,28 @@ class _$VideoStateImpl implements _VideoState {
     return EqualUnmodifiableMapView(_videoListMap);
   }
 
+  final Map<String, VideoModel> _videoModelMap;
+  @override
+  @JsonKey()
+  Map<String, VideoModel> get videoModelMap {
+    if (_videoModelMap is EqualUnmodifiableMapView) return _videoModelMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_videoModelMap);
+  }
+
+  final Map<String, String> _bunruiBlankSettingMap;
+  @override
+  @JsonKey()
+  Map<String, String> get bunruiBlankSettingMap {
+    if (_bunruiBlankSettingMap is EqualUnmodifiableMapView)
+      return _bunruiBlankSettingMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_bunruiBlankSettingMap);
+  }
+
   @override
   String toString() {
-    return 'VideoState(videoList: $videoList, videoListMap: $videoListMap)';
+    return 'VideoState(videoList: $videoList, videoListMap: $videoListMap, videoModelMap: $videoModelMap, bunruiBlankSettingMap: $bunruiBlankSettingMap)';
   }
 
   @override
@@ -149,14 +204,20 @@ class _$VideoStateImpl implements _VideoState {
             const DeepCollectionEquality()
                 .equals(other._videoList, _videoList) &&
             const DeepCollectionEquality()
-                .equals(other._videoListMap, _videoListMap));
+                .equals(other._videoListMap, _videoListMap) &&
+            const DeepCollectionEquality()
+                .equals(other._videoModelMap, _videoModelMap) &&
+            const DeepCollectionEquality()
+                .equals(other._bunruiBlankSettingMap, _bunruiBlankSettingMap));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_videoList),
-      const DeepCollectionEquality().hash(_videoListMap));
+      const DeepCollectionEquality().hash(_videoListMap),
+      const DeepCollectionEquality().hash(_videoModelMap),
+      const DeepCollectionEquality().hash(_bunruiBlankSettingMap));
 
   /// Create a copy of VideoState
   /// with the given fields replaced by the non-null parameter values.
@@ -170,12 +231,18 @@ class _$VideoStateImpl implements _VideoState {
 abstract class _VideoState implements VideoState {
   const factory _VideoState(
       {final List<VideoModel> videoList,
-      final Map<String, List<VideoModel>> videoListMap}) = _$VideoStateImpl;
+      final Map<String, List<VideoModel>> videoListMap,
+      final Map<String, VideoModel> videoModelMap,
+      final Map<String, String> bunruiBlankSettingMap}) = _$VideoStateImpl;
 
   @override
   List<VideoModel> get videoList;
   @override
   Map<String, List<VideoModel>> get videoListMap;
+  @override
+  Map<String, VideoModel> get videoModelMap;
+  @override
+  Map<String, String> get bunruiBlankSettingMap;
 
   /// Create a copy of VideoState
   /// with the given fields replaced by the non-null parameter values.

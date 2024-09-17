@@ -9,6 +9,7 @@ enum APIPath {
   updateVideoPlayedAt,
   updateYoutubeCategoryTree,
   oneBunruiInput,
+  searchYoutubeId,
 }
 
 extension APIPathExtension on APIPath {
@@ -35,6 +36,8 @@ extension APIPathExtension on APIPath {
         return 'updateYoutubeCategoryTree';
       case APIPath.oneBunruiInput:
         return 'oneBunruiInput';
+      case APIPath.searchYoutubeId:
+        return 'searchYoutubeId';
     }
   }
 }

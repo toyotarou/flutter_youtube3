@@ -1,24 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'video.dart';
+part of 'search.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$videoHash() => r'81f8009ec064f94576e80cb365cd46d578d1b8f6';
+String _$searchHash() => r'b2ad018c8d859d42e9c5df0e17609551bea64c3a';
 
-/// See also [Video].
-@ProviderFor(Video)
-final videoProvider = NotifierProvider<Video, VideoState>.internal(
-  Video.new,
-  name: r'videoProvider',
+/// See also [Search].
+@ProviderFor(Search)
+final searchProvider = NotifierProvider<Search, SearchState>.internal(
+  Search.new,
+  name: r'searchProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$videoHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$searchHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$Video = Notifier<VideoState>;
+typedef _$Search = Notifier<SearchState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

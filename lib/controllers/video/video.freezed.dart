@@ -25,9 +25,7 @@ mixin _$VideoState {
       throw _privateConstructorUsedError;
   List<String> get selectedYoutubeIdList => throw _privateConstructorUsedError;
 
-  /// Create a copy of VideoState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $VideoStateCopyWith<VideoState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -56,8 +54,6 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of VideoState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -116,8 +112,6 @@ class __$$VideoStateImplCopyWithImpl<$Res>
       _$VideoStateImpl _value, $Res Function(_$VideoStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of VideoState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -163,7 +157,7 @@ class _$VideoStateImpl implements _VideoState {
           const <String, VideoModel>{},
       final Map<String, CategoryModel> bunruiBlankSettingMap =
           const <String, CategoryModel>{},
-      final List<String> selectedYoutubeIdList = const []})
+      final List<String> selectedYoutubeIdList = const <String>[]})
       : _videoList = videoList,
         _videoListMap = videoListMap,
         _videoModelMap = videoModelMap,
@@ -248,9 +242,7 @@ class _$VideoStateImpl implements _VideoState {
       const DeepCollectionEquality().hash(_bunruiBlankSettingMap),
       const DeepCollectionEquality().hash(_selectedYoutubeIdList));
 
-  /// Create a copy of VideoState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$VideoStateImplCopyWith<_$VideoStateImpl> get copyWith =>
@@ -275,11 +267,8 @@ abstract class _VideoState implements VideoState {
   Map<String, CategoryModel> get bunruiBlankSettingMap;
   @override
   List<String> get selectedYoutubeIdList;
-
-  /// Create a copy of VideoState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$VideoStateImplCopyWith<_$VideoStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

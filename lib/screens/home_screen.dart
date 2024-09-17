@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controllers/category/category.dart';
+import '../controllers/search/search.dart';
 import '../controllers/video/video.dart';
 import '../extensions/extensions.dart';
 import '../models/category_model.dart';
@@ -10,6 +11,7 @@ import '../models/video_model.dart';
 import 'components/bunrui_detail_display_alert.dart';
 import 'components/new_category_input_alert.dart';
 import 'components/video_detail_display_alert.dart';
+import 'components/video_search_result_alert.dart';
 import 'components/youtube_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -21,6 +23,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _BunruiScreenState extends ConsumerState<HomeScreen> {
   List<String> bunruiLevelList = <String>[];
+
+  TextEditingController searchWordEditingController = TextEditingController();
 
   ///
   @override
@@ -84,6 +88,58 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         title: const Text('Youtube Video List'),
         centerTitle: false,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: Container(
+            width: double.infinity,
+            margin: const EdgeInsets.all(10),
+            child: Row(
+              children: <Widget>[
+                Container(width: 100),
+                Expanded(
+                    child: TextField(
+                  controller: searchWordEditingController,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    hintText: 'word',
+                    filled: true,
+                    fillColor: Colors.black26,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white54)),
+                  ),
+                  style: const TextStyle(fontSize: 13, color: Colors.white),
+                  onTapOutside: (PointerDownEvent event) =>
+                      FocusManager.instance.primaryFocus?.unfocus(),
+                )),
+                const SizedBox(width: 20),
+                GestureDetector(
+                  onTap: () {
+                    if (searchWordEditingController.text.trim() != '') {
+                      ref.read(searchProvider.notifier).getSearchYoutubeId(
+                            word: searchWordEditingController.text,
+                          );
+
+                      searchWordEditingController.clear();
+
+                      ref
+                          .read(searchProvider.notifier)
+                          .clearSearchResultAlertDropdownValue();
+
+                      YoutubeDialog(
+                        context: context,
+                        widget: const VideoSearchResultAlert(),
+                      );
+                    }
+                  },
+                  child: const Icon(Icons.search),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,6 +149,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  const SizedBox(height: 10),
                   SizedBox(
                     height: 50,
                     child: SingleChildScrollView(
@@ -146,7 +203,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                   ),
                   SizedBox(height: 50, child: displayCategory2Widget()),
                   SizedBox(
-                    height: context.screenSize.height * 0.65,
+                    height: context.screenSize.height * 0.6,
                     child: Column(
                       children: <Widget>[Expanded(child: displayLeftList())],
                     ),
@@ -192,7 +249,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                   ),
-                  height: context.screenSize.height * 0.9,
+                  height: context.screenSize.height * 0.8,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[Expanded(child: displayRightList())],

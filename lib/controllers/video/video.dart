@@ -100,7 +100,7 @@ class Video extends _$Video {
         }
       }
 
-      state = state.copyWith(videoListMap: map);
+      state = state.copyWith(videoListMap: map, videoModelMap: map2);
 
       // ignore: always_specify_types
     }).catchError((error, _) {
@@ -173,7 +173,7 @@ class Video extends _$Video {
     await client.post(path: APIPath.bunruiYoutubeData, body: <String, dynamic>{
       'bunrui': bunrui,
       'youtube_id': list.join(',')
-    // ignore: always_specify_types
+      // ignore: always_specify_types
     }).catchError((error, _) => utility.showError('予期せぬエラーが発生しました'));
   }
 }

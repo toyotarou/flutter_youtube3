@@ -81,128 +81,127 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
     category1List.sort();
 
     return Scaffold(
-      body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 50,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: category1List.map((String e) {
-                              return GestureDetector(
-                                onTap: (e == 'NEW')
-                                    ? () {
-                                        YoutubeDialog(
-                                          context: context,
-                                          widget: const NewCategoryInputAlert(
-                                              flag: 'category1'),
-                                          paddingTop:
-                                              context.screenSize.height * 0.2,
-                                          paddingRight:
-                                              context.screenSize.width * 0.3,
-                                          paddingBottom:
-                                              context.screenSize.height * 0.3,
-                                          clearBarrierColor: true,
-                                        );
-                                      }
-                                    : () {
-                                        ref
-                                            .read(categoryProvider.notifier)
-                                            .setSelectedCategory2(
-                                                category2: '');
+      appBar: AppBar(
+        title: const Text('Youtube Video List'),
+        centerTitle: false,
+      ),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: 50,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: category1List.map((String e) {
+                            return GestureDetector(
+                              onTap: (e == 'NEW')
+                                  ? () {
+                                      YoutubeDialog(
+                                        context: context,
+                                        widget: const NewCategoryInputAlert(
+                                            flag: 'category1'),
+                                        paddingTop:
+                                            context.screenSize.height * 0.2,
+                                        paddingRight:
+                                            context.screenSize.width * 0.3,
+                                        paddingBottom:
+                                            context.screenSize.height * 0.3,
+                                        clearBarrierColor: true,
+                                      );
+                                    }
+                                  : () {
+                                      ref
+                                          .read(categoryProvider.notifier)
+                                          .setSelectedCategory2(category2: '');
 
-                                        ref
-                                            .read(categoryProvider.notifier)
-                                            .setSelectedCategory1(category1: e);
-                                      },
-                                child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                      color: (e == 'NEW')
-                                          ? Colors.blueAccent.withOpacity(0.2)
-                                          : (selectedCategory1 == e)
-                                              ? Colors.yellowAccent
-                                                  .withOpacity(0.2)
-                                              : Colors.greenAccent
-                                                  .withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(e)),
-                              );
-                            }).toList()),
-                      ),
+                                      ref
+                                          .read(categoryProvider.notifier)
+                                          .setSelectedCategory1(category1: e);
+                                    },
+                              child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: (e == 'NEW')
+                                        ? Colors.blueAccent.withOpacity(0.2)
+                                        : (selectedCategory1 == e)
+                                            ? Colors.yellowAccent
+                                                .withOpacity(0.2)
+                                            : Colors.greenAccent
+                                                .withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(e)),
+                            );
+                          }).toList()),
                     ),
-                    SizedBox(height: 50, child: displayCategory2Widget()),
-                    SizedBox(
-                      height: context.screenSize.height * 0.75,
-                      child: Column(
-                        children: <Widget>[Expanded(child: displayLeftList())],
-                      ),
+                  ),
+                  SizedBox(height: 50, child: displayCategory2Widget()),
+                  SizedBox(
+                    height: context.screenSize.height * 0.65,
+                    child: Column(
+                      children: <Widget>[Expanded(child: displayLeftList())],
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        final Map<String, CategoryModel> bunruiBlankSettingMap =
-                            ref.read(videoProvider.select((VideoState value) =>
-                                value.bunruiBlankSettingMap));
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      final Map<String, CategoryModel> bunruiBlankSettingMap =
+                          ref.read(videoProvider.select((VideoState value) =>
+                              value.bunruiBlankSettingMap));
 
-                        bunruiBlankSettingMap
-                            .forEach((String key, CategoryModel value) {
-                          ref
-                              .read(categoryProvider.notifier)
-                              .inputBunruiCategory(
-                                youtubeId: key,
-                                cate1: value.category1,
-                                cate2: value.category2,
-                                bunrui: value.bunrui,
-                              );
-                        });
+                      bunruiBlankSettingMap
+                          .forEach((String key, CategoryModel value) {
+                        ref.read(categoryProvider.notifier).inputBunruiCategory(
+                              youtubeId: key,
+                              cate1: value.category1,
+                              cate2: value.category2,
+                              bunrui: value.bunrui,
+                            );
+                      });
 
-                        ref.read(videoProvider.notifier).getYoutubeList();
+                      ref.read(videoProvider.notifier).getYoutubeList();
 
-                        Navigator.pop(context);
-                      },
-                      child: const Text('input'),
-                    ),
-                  ],
-                ),
+                      Navigator.pop(context);
+                    },
+                    child: const Text('input'),
+                  ),
+                ],
               ),
             ),
-            if (bunruiBlankVideoList.isNotEmpty) ...<Widget>[
-              const SizedBox(width: 10),
-              SizedBox(
-                width: 150,
-                child: SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: Colors.greenAccent.withOpacity(0.2),
-                          width: 3,
-                        ),
+          ),
+          if (bunruiBlankVideoList.isNotEmpty) ...<Widget>[
+            const SizedBox(width: 10),
+            SizedBox(
+              width: 150,
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                        color: Colors.greenAccent.withOpacity(0.2),
+                        width: 3,
                       ),
                     ),
-                    height: context.screenSize.height,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[Expanded(child: displayRightList())],
-                    ),
+                  ),
+                  height: context.screenSize.height * 0.8,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[Expanded(child: displayRightList())],
                   ),
                 ),
               ),
-            ],
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

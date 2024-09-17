@@ -148,8 +148,13 @@ class _BunruiDetailDisplayAlertState
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
+              ),
+            ),
+            color: Colors.black.withOpacity(0.3),
+          ),
           child: Column(
             children: <Widget>[
               Row(
@@ -175,6 +180,16 @@ class _BunruiDetailDisplayAlertState
                           element.title,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
+                        ),
+                        DefaultTextStyle(
+                          style: const TextStyle(fontSize: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Text(element.channelId),
+                              Text(element.channelTitle),
+                            ],
+                          ),
                         ),
                       ],
                     ),

@@ -13,6 +13,7 @@ part 'search.g.dart';
 @freezed
 class SearchState with _$SearchState {
   const factory SearchState({
+    @Default('') String searchWord,
     @Default(<String>[]) List<String> youtubeIdList,
     @Default(<String>[]) List<String> searchResultAlertDropdownValue,
   }) = _SearchState;
@@ -52,7 +53,7 @@ class Search extends _$Search {
         }
       }
 
-      state = state.copyWith(youtubeIdList: list);
+      state = state.copyWith(searchWord: word, youtubeIdList: list);
 
       // ignore: always_specify_types
     }).catchError((error, _) {

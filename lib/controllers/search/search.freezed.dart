@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SearchState {
+  String get searchWord => throw _privateConstructorUsedError;
   List<String> get youtubeIdList => throw _privateConstructorUsedError;
   List<String> get searchResultAlertDropdownValue =>
       throw _privateConstructorUsedError;
@@ -32,7 +33,8 @@ abstract class $SearchStateCopyWith<$Res> {
       _$SearchStateCopyWithImpl<$Res, SearchState>;
   @useResult
   $Res call(
-      {List<String> youtubeIdList,
+      {String searchWord,
+      List<String> youtubeIdList,
       List<String> searchResultAlertDropdownValue});
 }
 
@@ -49,10 +51,15 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? searchWord = null,
     Object? youtubeIdList = null,
     Object? searchResultAlertDropdownValue = null,
   }) {
     return _then(_value.copyWith(
+      searchWord: null == searchWord
+          ? _value.searchWord
+          : searchWord // ignore: cast_nullable_to_non_nullable
+              as String,
       youtubeIdList: null == youtubeIdList
           ? _value.youtubeIdList
           : youtubeIdList // ignore: cast_nullable_to_non_nullable
@@ -74,7 +81,8 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<String> youtubeIdList,
+      {String searchWord,
+      List<String> youtubeIdList,
       List<String> searchResultAlertDropdownValue});
 }
 
@@ -89,10 +97,15 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? searchWord = null,
     Object? youtubeIdList = null,
     Object? searchResultAlertDropdownValue = null,
   }) {
     return _then(_$SearchStateImpl(
+      searchWord: null == searchWord
+          ? _value.searchWord
+          : searchWord // ignore: cast_nullable_to_non_nullable
+              as String,
       youtubeIdList: null == youtubeIdList
           ? _value._youtubeIdList
           : youtubeIdList // ignore: cast_nullable_to_non_nullable
@@ -109,11 +122,15 @@ class __$$SearchStateImplCopyWithImpl<$Res>
 
 class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
-      {final List<String> youtubeIdList = const <String>[],
-      final List<String> searchResultAlertDropdownValue = const []})
+      {this.searchWord = '',
+      final List<String> youtubeIdList = const <String>[],
+      final List<String> searchResultAlertDropdownValue = const <String>[]})
       : _youtubeIdList = youtubeIdList,
         _searchResultAlertDropdownValue = searchResultAlertDropdownValue;
 
+  @override
+  @JsonKey()
+  final String searchWord;
   final List<String> _youtubeIdList;
   @override
   @JsonKey()
@@ -135,7 +152,7 @@ class _$SearchStateImpl implements _SearchState {
 
   @override
   String toString() {
-    return 'SearchState(youtubeIdList: $youtubeIdList, searchResultAlertDropdownValue: $searchResultAlertDropdownValue)';
+    return 'SearchState(searchWord: $searchWord, youtubeIdList: $youtubeIdList, searchResultAlertDropdownValue: $searchResultAlertDropdownValue)';
   }
 
   @override
@@ -143,6 +160,8 @@ class _$SearchStateImpl implements _SearchState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SearchStateImpl &&
+            (identical(other.searchWord, searchWord) ||
+                other.searchWord == searchWord) &&
             const DeepCollectionEquality()
                 .equals(other._youtubeIdList, _youtubeIdList) &&
             const DeepCollectionEquality().equals(
@@ -153,6 +172,7 @@ class _$SearchStateImpl implements _SearchState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      searchWord,
       const DeepCollectionEquality().hash(_youtubeIdList),
       const DeepCollectionEquality().hash(_searchResultAlertDropdownValue));
 
@@ -165,9 +185,12 @@ class _$SearchStateImpl implements _SearchState {
 
 abstract class _SearchState implements SearchState {
   const factory _SearchState(
-      {final List<String> youtubeIdList,
+      {final String searchWord,
+      final List<String> youtubeIdList,
       final List<String> searchResultAlertDropdownValue}) = _$SearchStateImpl;
 
+  @override
+  String get searchWord;
   @override
   List<String> get youtubeIdList;
   @override

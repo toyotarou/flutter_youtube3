@@ -63,6 +63,10 @@ class _VideoSearchResultAlertState
     final List<String> bunruiList = getBunruiList();
     bunruiList.sort();
 
+    var searchWord =
+        ref.read(searchProvider.select((value) => value.searchWord));
+    final reg = RegExp(searchWord);
+
     final List<Widget> list = <Widget>[];
 
     for (int i = 0; i < youtubeIdList.length; i++) {
@@ -131,14 +135,20 @@ class _VideoSearchResultAlertState
                   children: <Widget>[
                     // ignore: always_specify_types
                     DropdownButton(
-                      dropdownColor: Colors.pinkAccent.withOpacity(0.1),
+                      dropdownColor: Color(0xffe6e6fa),
                       items: bunruiList.map((String e) {
                         // ignore: always_specify_types
                         return DropdownMenuItem(
                           value: e,
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(e),
+                            child: Text(
+                              e,
+                              style: TextStyle(
+                                  color: (reg.firstMatch(e) != null)
+                                      ? Colors.yellowAccent
+                                      : Colors.white),
+                            ),
                           ),
                         );
                       }).toList(),
@@ -153,9 +163,26 @@ class _VideoSearchResultAlertState
                     Row(
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-                            // print(youtubeIdList[i]);
-                            // print(searchResultAlertDropdownValue[i]);
+                          onTap: () async {
+                            final CategoryModel categoryModel = ref
+                                .watch(categoryProvider.select(
+                                    (CategoryState value) =>
+                                        value.categoryList))
+                                .firstWhere((CategoryModel e) =>
+                                    e.bunrui ==
+                                    searchResultAlertDropdownValue[i]);
+
+                            await ref
+                                .read(categoryProvider.notifier)
+                                .inputBunruiCategory(
+                                    youtubeId: youtubeIdList[i],
+                                    cate1: categoryModel.category1,
+                                    cate2: categoryModel.category2,
+                                    bunrui: categoryModel.bunrui);
+
+                            await ref
+                                .read(videoProvider.notifier)
+                                .getYoutubeList();
                           },
                           child: Icon(Icons.refresh,
                               color: Colors.white.withOpacity(0.4)),

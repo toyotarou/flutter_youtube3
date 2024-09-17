@@ -121,8 +121,16 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                       ref.read(searchProvider.notifier).getSearchYoutubeId(
                             word: searchWordEditingController.text,
                           );
+                      //
+                      // searchWordEditingController.clear();
+                      //
+                      //
+                      //
+                      //
 
-                      searchWordEditingController.clear();
+
+
+
 
                       ref
                           .read(searchProvider.notifier)

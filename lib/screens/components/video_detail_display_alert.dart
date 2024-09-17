@@ -25,7 +25,7 @@ class _VideoDetailDisplayAlertState
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
       content: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         width: double.infinity,
         height: double.infinity,
         child: Container(

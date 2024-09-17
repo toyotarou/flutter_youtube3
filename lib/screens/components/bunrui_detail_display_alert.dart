@@ -29,7 +29,7 @@ class _BunruiDetailDisplayAlertState
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
       content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -146,6 +146,7 @@ class _BunruiDetailDisplayAlertState
           );
         },
         child: Container(
+          margin: const EdgeInsets.all(5),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border(
@@ -181,6 +182,7 @@ class _BunruiDetailDisplayAlertState
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        const Divider(color: Colors.white),
                         DefaultTextStyle(
                           style: const TextStyle(fontSize: 10),
                           child: Column(
@@ -196,6 +198,7 @@ class _BunruiDetailDisplayAlertState
                   ),
                 ],
               ),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

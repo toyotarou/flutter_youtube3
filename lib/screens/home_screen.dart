@@ -192,7 +192,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                   ),
-                  height: context.screenSize.height * 0.8,
+                  height: context.screenSize.height * 0.9,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[Expanded(child: displayRightList())],
@@ -357,7 +357,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
             child: Stack(
               children: <Widget>[
                 Container(
-                  width: 100,
+                  width: context.screenSize.width * 0.2,
                   padding: const EdgeInsets.all(5),
                   child: CachedNetworkImage(
                     imageUrl:

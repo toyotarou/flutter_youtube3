@@ -85,6 +85,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
     category1List.sort();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Youtube Video List'),
         centerTitle: false,
@@ -119,18 +120,9 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                   onTap: () {
                     if (searchWordEditingController.text.trim() != '') {
                       ref.read(searchProvider.notifier).getSearchYoutubeId(
-                            word: searchWordEditingController.text,
-                          );
-                      //
-                      // searchWordEditingController.clear();
-                      //
-                      //
-                      //
-                      //
+                          word: searchWordEditingController.text);
 
-
-
-
+                      searchWordEditingController.clear();
 
                       ref
                           .read(searchProvider.notifier)
@@ -172,13 +164,6 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                                         context: context,
                                         widget: const NewCategoryInputAlert(
                                             flag: 'category1'),
-                                        paddingTop:
-                                            context.screenSize.height * 0.2,
-                                        paddingRight:
-                                            context.screenSize.width * 0.3,
-                                        paddingBottom:
-                                            context.screenSize.height * 0.3,
-                                        clearBarrierColor: true,
                                       );
                                     }
                                   : () {
@@ -234,8 +219,6 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                       });
 
                       ref.read(videoProvider.notifier).getYoutubeList();
-
-                      Navigator.pop(context);
                     },
                     child: const Text('input'),
                   ),
@@ -312,6 +295,30 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
         ref.watch(videoProvider.select((VideoState value) => value.videoList));
 
     final List<Widget> list = <Widget>[];
+
+    if (selectedCategory2 != '') {
+      list.add(
+        GestureDetector(
+          onTap: () {
+            YoutubeDialog(
+              context: context,
+              widget: const NewCategoryInputAlert(flag: 'bunrui'),
+            );
+          },
+          child: Container(
+            margin: const EdgeInsets.all(5),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            decoration: BoxDecoration(
+              color: Colors.blueAccent.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Text('NEW'),
+          ),
+        ),
+      );
+
+      list.add(const SizedBox(height: 10));
+    }
 
     bunruiLevelList = bunruiLevelList.toSet().toList();
 
@@ -595,10 +602,6 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                 YoutubeDialog(
                   context: context,
                   widget: const NewCategoryInputAlert(flag: 'category2'),
-                  paddingTop: context.screenSize.height * 0.2,
-                  paddingRight: context.screenSize.width * 0.3,
-                  paddingBottom: context.screenSize.height * 0.3,
-                  clearBarrierColor: true,
                 );
               }
             : () {

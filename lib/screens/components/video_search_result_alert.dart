@@ -63,9 +63,10 @@ class _VideoSearchResultAlertState
     final List<String> bunruiList = getBunruiList();
     bunruiList.sort();
 
-    var searchWord =
-        ref.read(searchProvider.select((value) => value.searchWord));
-    final reg = RegExp(searchWord);
+    final String searchWord = ref
+        .read(searchProvider.select((SearchState value) => value.searchWord));
+
+    final RegExp reg = RegExp(searchWord);
 
     final List<Widget> list = <Widget>[];
 
@@ -135,7 +136,7 @@ class _VideoSearchResultAlertState
                   children: <Widget>[
                     // ignore: always_specify_types
                     DropdownButton(
-                      dropdownColor: Color(0xffe6e6fa),
+                      dropdownColor: Colors.pinkAccent.withOpacity(0.2),
                       items: bunruiList.map((String e) {
                         // ignore: always_specify_types
                         return DropdownMenuItem(
@@ -187,7 +188,7 @@ class _VideoSearchResultAlertState
                           child: Icon(Icons.refresh,
                               color: Colors.white.withOpacity(0.4)),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 5),
                       ],
                     ),
                   ],

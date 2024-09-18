@@ -65,6 +65,9 @@ class Video extends _$Video {
   }
 
   ///
+  void clearVideoList() => state = state.copyWith(videoList: <VideoModel>[]);
+
+  ///
   Future<void> getYoutubeList() async {
     final Utility utility = Utility();
 

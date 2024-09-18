@@ -92,6 +92,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text('Youtube Video List'),
@@ -179,6 +180,21 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
         ),
+        flexibleSpace: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/bg.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+            ),
+          ],
+        ),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -248,42 +264,46 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () async {
-                          final Map<String, CategoryModel>
-                              bunruiBlankSettingMap = await ref.read(
-                                  videoProvider.select((VideoState value) =>
-                                      value.bunruiBlankSettingMap));
+                      if (bunruiBlankVideoList.isNotEmpty) ...<Widget>[
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final Map<String, CategoryModel>
+                                bunruiBlankSettingMap = await ref.read(
+                                    videoProvider.select((VideoState value) =>
+                                        value.bunruiBlankSettingMap));
 
-                          bunruiBlankSettingMap
-                              .forEach((String key, CategoryModel value) async {
+                            bunruiBlankSettingMap.forEach(
+                                (String key, CategoryModel value) async {
+                              await ref
+                                  .read(categoryProvider.notifier)
+                                  .inputBunruiCategory(
+                                    youtubeId: key,
+                                    cate1: value.category1,
+                                    cate2: value.category2,
+                                    bunrui: value.bunrui,
+                                  );
+                            });
+
                             await ref
-                                .read(categoryProvider.notifier)
-                                .inputBunruiCategory(
-                                  youtubeId: key,
-                                  cate1: value.category1,
-                                  cate2: value.category2,
-                                  bunrui: value.bunrui,
-                                );
-                          });
+                                .read(videoProvider.notifier)
+                                .getYoutubeList();
 
-                          await ref
-                              .read(videoProvider.notifier)
-                              .getYoutubeList();
+                            ref.read(videoProvider.notifier).clearVideoList();
 
-                          Navigator.pushReplacement(
-                            // ignore: use_build_context_synchronously
-                            context,
-                            // ignore: inference_failure_on_instance_creation, always_specify_types
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const HomeScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text('input'),
-                      ),
+                            Navigator.pushReplacement(
+                              // ignore: use_build_context_synchronously
+                              context,
+                              // ignore: inference_failure_on_instance_creation, always_specify_types
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const HomeScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text('input'),
+                        ),
+                      ],
                     ],
                   ),
                 ),

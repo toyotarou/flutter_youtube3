@@ -190,25 +190,27 @@ class _BunruiDetailDisplayAlertState
                       const SizedBox(height: 10),
                       Text(
                         element.playtime,
-                        style: const TextStyle(color: Colors.yellowAccent),
+                        style: const TextStyle(
+                            color: Colors.yellowAccent, fontSize: 12),
                       ),
                     ],
                   ),
                   const SizedBox(width: 20),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
                           element.title,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 12),
                         ),
                         const Divider(color: Colors.white),
                         DefaultTextStyle(
                           style: const TextStyle(fontSize: 10),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(element.channelId),
                               Text(element.channelTitle),

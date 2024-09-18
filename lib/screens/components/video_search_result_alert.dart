@@ -144,7 +144,8 @@ class _VideoSearchResultAlertState
                     Container(),
                     Text(
                       videoModelMap[youtubeIdList[i]]!.playtime,
-                      style: const TextStyle(color: Colors.yellowAccent),
+                      style: const TextStyle(
+                          color: Colors.yellowAccent, fontSize: 12),
                     ),
                   ],
                 ),

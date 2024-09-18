@@ -8,6 +8,7 @@ import '../controllers/video/video.dart';
 import '../extensions/extensions.dart';
 import '../models/category_model.dart';
 import '../models/video_model.dart';
+import '../utility/utility.dart';
 import 'components/bunrui_detail_display_alert.dart';
 import 'components/new_category_input_alert.dart';
 import 'components/video_detail_display_alert.dart';
@@ -25,6 +26,8 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
   List<String> bunruiLevelList = <String>[];
 
   TextEditingController searchWordEditingController = TextEditingController();
+
+  Utility utility = Utility();
 
   ///
   @override
@@ -90,6 +93,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: const Text('Youtube Video List'),
         centerTitle: false,
         bottom: PreferredSize(
@@ -176,126 +180,139 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
+        fit: StackFit.expand,
         children: <Widget>[
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 50,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: category1List.map((String e) {
-                            return GestureDetector(
-                              onTap: (e == 'NEW')
-                                  ? () {
-                                      YoutubeDialog(
-                                        context: context,
-                                        widget: const NewCategoryInputAlert(
-                                            flag: 'category1'),
-                                      );
-                                    }
-                                  : () {
-                                      ref
-                                          .read(categoryProvider.notifier)
-                                          .setSelectedCategory2(category2: '');
-
-                                      ref
-                                          .read(categoryProvider.notifier)
-                                          .setSelectedCategory1(category1: e);
-                                    },
-                              child: Container(
-                                  margin: const EdgeInsets.all(5),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    color: (e == 'NEW')
-                                        ? Colors.blueAccent.withOpacity(0.2)
-                                        : (selectedCategory1 == e)
-                                            ? Colors.yellowAccent
-                                                .withOpacity(0.2)
-                                            : Colors.greenAccent
-                                                .withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(e)),
-                            );
-                          }).toList()),
-                    ),
-                  ),
-                  SizedBox(height: 50, child: displayCategory2Widget()),
-                  SizedBox(
-                    height: context.screenSize.height * 0.6,
-                    child: Column(
-                      children: <Widget>[Expanded(child: displayLeftList())],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final Map<String, CategoryModel> bunruiBlankSettingMap =
-                          await ref.read(videoProvider.select(
-                              (VideoState value) =>
-                                  value.bunruiBlankSettingMap));
-
-                      bunruiBlankSettingMap
-                          .forEach((String key, CategoryModel value) async {
-                        await ref
-                            .read(categoryProvider.notifier)
-                            .inputBunruiCategory(
-                              youtubeId: key,
-                              cate1: value.category1,
-                              cate2: value.category2,
-                              bunrui: value.bunrui,
-                            );
-                      });
-
-                      await ref.read(videoProvider.notifier).getYoutubeList();
-
-                      Navigator.pushReplacement(
-                        // ignore: use_build_context_synchronously
-                        context,
-                        // ignore: inference_failure_on_instance_creation, always_specify_types
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const HomeScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text('input'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          if (bunruiBlankVideoList.isNotEmpty) ...<Widget>[
-            const SizedBox(width: 10),
-            SizedBox(
-              width: 150,
-              child: SingleChildScrollView(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      left: BorderSide(
-                        color: Colors.greenAccent.withOpacity(0.2),
-                        width: 3,
-                      ),
-                    ),
-                  ),
-                  height: context.screenSize.height * 0.8,
+          utility.getBackGround(),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[Expanded(child: displayRightList())],
+                    children: <Widget>[
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 50,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: category1List.map((String e) {
+                                return GestureDetector(
+                                  onTap: (e == 'NEW')
+                                      ? () {
+                                          YoutubeDialog(
+                                            context: context,
+                                            widget: const NewCategoryInputAlert(
+                                                flag: 'category1'),
+                                          );
+                                        }
+                                      : () {
+                                          ref
+                                              .read(categoryProvider.notifier)
+                                              .setSelectedCategory2(
+                                                  category2: '');
+
+                                          ref
+                                              .read(categoryProvider.notifier)
+                                              .setSelectedCategory1(
+                                                  category1: e);
+                                        },
+                                  child: Container(
+                                      margin: const EdgeInsets.all(5),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        color: (e == 'NEW')
+                                            ? Colors.blueAccent.withOpacity(0.2)
+                                            : (selectedCategory1 == e)
+                                                ? Colors.yellowAccent
+                                                    .withOpacity(0.2)
+                                                : Colors.greenAccent
+                                                    .withOpacity(0.2),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(e)),
+                                );
+                              }).toList()),
+                        ),
+                      ),
+                      SizedBox(height: 50, child: displayCategory2Widget()),
+                      SizedBox(
+                        height: context.screenSize.height * 0.6,
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(child: displayLeftList())
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () async {
+                          final Map<String, CategoryModel>
+                              bunruiBlankSettingMap = await ref.read(
+                                  videoProvider.select((VideoState value) =>
+                                      value.bunruiBlankSettingMap));
+
+                          bunruiBlankSettingMap
+                              .forEach((String key, CategoryModel value) async {
+                            await ref
+                                .read(categoryProvider.notifier)
+                                .inputBunruiCategory(
+                                  youtubeId: key,
+                                  cate1: value.category1,
+                                  cate2: value.category2,
+                                  bunrui: value.bunrui,
+                                );
+                          });
+
+                          await ref
+                              .read(videoProvider.notifier)
+                              .getYoutubeList();
+
+                          Navigator.pushReplacement(
+                            // ignore: use_build_context_synchronously
+                            context,
+                            // ignore: inference_failure_on_instance_creation, always_specify_types
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const HomeScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('input'),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+              if (bunruiBlankVideoList.isNotEmpty) ...<Widget>[
+                const SizedBox(width: 10),
+                SizedBox(
+                  width: 150,
+                  child: SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                            color: Colors.greenAccent.withOpacity(0.2),
+                            width: 3,
+                          ),
+                        ),
+                      ),
+                      height: context.screenSize.height * 0.8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[Expanded(child: displayRightList())],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ],
       ),
     );

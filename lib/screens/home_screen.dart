@@ -84,6 +84,9 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
 
     category1List.sort();
 
+    final String searchTarget = ref.watch(
+        searchProvider.select((SearchState value) => value.searchTarget));
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -96,7 +99,39 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
             margin: const EdgeInsets.all(10),
             child: Row(
               children: <Widget>[
-                Container(width: 100),
+                SizedBox(
+                  width: 100,
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          ref
+                              .read(searchProvider.notifier)
+                              .setSearchTarget(target: 'title');
+                        },
+                        icon: Icon(
+                          Icons.title,
+                          color: (searchTarget == 'title')
+                              ? Colors.yellowAccent
+                              : Colors.white,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          ref
+                              .read(searchProvider.notifier)
+                              .setSearchTarget(target: 'channel');
+                        },
+                        icon: Icon(
+                          Icons.nature_outlined,
+                          color: (searchTarget == 'channel')
+                              ? Colors.yellowAccent
+                              : Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                     child: TextField(
                   controller: searchWordEditingController,
@@ -203,14 +238,17 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       final Map<String, CategoryModel> bunruiBlankSettingMap =
-                          ref.read(videoProvider.select((VideoState value) =>
-                              value.bunruiBlankSettingMap));
+                          await ref.read(videoProvider.select(
+                              (VideoState value) =>
+                                  value.bunruiBlankSettingMap));
 
                       bunruiBlankSettingMap
-                          .forEach((String key, CategoryModel value) {
-                        ref.read(categoryProvider.notifier).inputBunruiCategory(
+                          .forEach((String key, CategoryModel value) async {
+                        await ref
+                            .read(categoryProvider.notifier)
+                            .inputBunruiCategory(
                               youtubeId: key,
                               cate1: value.category1,
                               cate2: value.category2,
@@ -218,7 +256,16 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                             );
                       });
 
-                      ref.read(videoProvider.notifier).getYoutubeList();
+                      await ref.read(videoProvider.notifier).getYoutubeList();
+
+                      Navigator.pushReplacement(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        // ignore: inference_failure_on_instance_creation, always_specify_types
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const HomeScreen(),
+                        ),
+                      );
                     },
                     child: const Text('input'),
                   ),

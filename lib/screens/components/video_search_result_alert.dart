@@ -93,6 +93,7 @@ class _VideoSearchResultAlertState
               color: Colors.black.withOpacity(0.3),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 ConstrainedBox(
                   constraints:
@@ -116,17 +117,45 @@ class _VideoSearchResultAlertState
                       Expanded(
                         child: Column(
                           children: <Widget>[
-                            Text(videoModelMap[youtubeIdList[i]]!.title),
+                            Text(
+                              videoModelMap[youtubeIdList[i]]!.title,
+                              style: const TextStyle(fontSize: 12),
+                            ),
                           ],
                         ),
                       ),
                     ],
                   ),
                 ),
+
+                Text(
+                  videoModelMap[youtubeIdList[i]]!.channelId,
+                  style: const TextStyle(fontSize: 12),
+                ),
+
+                Text(
+                  videoModelMap[youtubeIdList[i]]!.channelTitle,
+                  style: const TextStyle(fontSize: 12),
+                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(videoModelMap[youtubeIdList[i]]!.bunrui),
+                    Container(),
+                    Text(
+                      videoModelMap[youtubeIdList[i]]!.playtime,
+                      style: const TextStyle(color: Colors.yellowAccent),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      videoModelMap[youtubeIdList[i]]!.bunrui,
+                      style: const TextStyle(fontSize: 12),
+                    ),
                     Container(),
                   ],
                 ),

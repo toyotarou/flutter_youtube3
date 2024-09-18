@@ -66,7 +66,10 @@ class _VideoDetailDisplayAlertState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(),
-                  Text(widget.videoModel.playtime),
+                  Text(
+                    widget.videoModel.playtime,
+                    style: const TextStyle(color: Colors.yellowAccent),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),

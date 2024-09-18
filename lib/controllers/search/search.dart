@@ -16,6 +16,7 @@ class SearchState with _$SearchState {
     @Default('') String searchWord,
     @Default(<String>[]) List<String> youtubeIdList,
     @Default(<String>[]) List<String> searchResultAlertDropdownValue,
+    @Default('title') String searchTarget,
   }) = _SearchState;
 }
 
@@ -39,7 +40,7 @@ class Search extends _$Search {
     // ignore: always_specify_types
     await client.post(
       path: APIPath.searchYoutubeId,
-      body: <String, String>{'word': word},
+      body: <String, String>{'word': word, 'target': state.searchTarget},
       // ignore: always_specify_types
     ).then((value) {
       final List<String> list = <String>[];
@@ -76,4 +77,8 @@ class Search extends _$Search {
 
     state = state.copyWith(searchResultAlertDropdownValue: list);
   }
+
+  ///
+  void setSearchTarget({required String target}) =>
+      state = state.copyWith(searchTarget: target);
 }

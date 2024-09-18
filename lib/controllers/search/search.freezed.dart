@@ -20,6 +20,7 @@ mixin _$SearchState {
   List<String> get youtubeIdList => throw _privateConstructorUsedError;
   List<String> get searchResultAlertDropdownValue =>
       throw _privateConstructorUsedError;
+  String get searchTarget => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchStateCopyWith<SearchState> get copyWith =>
@@ -35,7 +36,8 @@ abstract class $SearchStateCopyWith<$Res> {
   $Res call(
       {String searchWord,
       List<String> youtubeIdList,
-      List<String> searchResultAlertDropdownValue});
+      List<String> searchResultAlertDropdownValue,
+      String searchTarget});
 }
 
 /// @nodoc
@@ -54,6 +56,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
     Object? searchWord = null,
     Object? youtubeIdList = null,
     Object? searchResultAlertDropdownValue = null,
+    Object? searchTarget = null,
   }) {
     return _then(_value.copyWith(
       searchWord: null == searchWord
@@ -68,6 +71,10 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.searchResultAlertDropdownValue
           : searchResultAlertDropdownValue // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      searchTarget: null == searchTarget
+          ? _value.searchTarget
+          : searchTarget // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -83,7 +90,8 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   $Res call(
       {String searchWord,
       List<String> youtubeIdList,
-      List<String> searchResultAlertDropdownValue});
+      List<String> searchResultAlertDropdownValue,
+      String searchTarget});
 }
 
 /// @nodoc
@@ -100,6 +108,7 @@ class __$$SearchStateImplCopyWithImpl<$Res>
     Object? searchWord = null,
     Object? youtubeIdList = null,
     Object? searchResultAlertDropdownValue = null,
+    Object? searchTarget = null,
   }) {
     return _then(_$SearchStateImpl(
       searchWord: null == searchWord
@@ -114,6 +123,10 @@ class __$$SearchStateImplCopyWithImpl<$Res>
           ? _value._searchResultAlertDropdownValue
           : searchResultAlertDropdownValue // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      searchTarget: null == searchTarget
+          ? _value.searchTarget
+          : searchTarget // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -124,7 +137,8 @@ class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl(
       {this.searchWord = '',
       final List<String> youtubeIdList = const <String>[],
-      final List<String> searchResultAlertDropdownValue = const <String>[]})
+      final List<String> searchResultAlertDropdownValue = const <String>[],
+      this.searchTarget = 'title'})
       : _youtubeIdList = youtubeIdList,
         _searchResultAlertDropdownValue = searchResultAlertDropdownValue;
 
@@ -151,8 +165,12 @@ class _$SearchStateImpl implements _SearchState {
   }
 
   @override
+  @JsonKey()
+  final String searchTarget;
+
+  @override
   String toString() {
-    return 'SearchState(searchWord: $searchWord, youtubeIdList: $youtubeIdList, searchResultAlertDropdownValue: $searchResultAlertDropdownValue)';
+    return 'SearchState(searchWord: $searchWord, youtubeIdList: $youtubeIdList, searchResultAlertDropdownValue: $searchResultAlertDropdownValue, searchTarget: $searchTarget)';
   }
 
   @override
@@ -166,7 +184,9 @@ class _$SearchStateImpl implements _SearchState {
                 .equals(other._youtubeIdList, _youtubeIdList) &&
             const DeepCollectionEquality().equals(
                 other._searchResultAlertDropdownValue,
-                _searchResultAlertDropdownValue));
+                _searchResultAlertDropdownValue) &&
+            (identical(other.searchTarget, searchTarget) ||
+                other.searchTarget == searchTarget));
   }
 
   @override
@@ -174,7 +194,8 @@ class _$SearchStateImpl implements _SearchState {
       runtimeType,
       searchWord,
       const DeepCollectionEquality().hash(_youtubeIdList),
-      const DeepCollectionEquality().hash(_searchResultAlertDropdownValue));
+      const DeepCollectionEquality().hash(_searchResultAlertDropdownValue),
+      searchTarget);
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +208,8 @@ abstract class _SearchState implements SearchState {
   const factory _SearchState(
       {final String searchWord,
       final List<String> youtubeIdList,
-      final List<String> searchResultAlertDropdownValue}) = _$SearchStateImpl;
+      final List<String> searchResultAlertDropdownValue,
+      final String searchTarget}) = _$SearchStateImpl;
 
   @override
   String get searchWord;
@@ -195,6 +217,8 @@ abstract class _SearchState implements SearchState {
   List<String> get youtubeIdList;
   @override
   List<String> get searchResultAlertDropdownValue;
+  @override
+  String get searchTarget;
   @override
   @JsonKey(ignore: true)
   _$$SearchStateImplCopyWith<_$SearchStateImpl> get copyWith =>

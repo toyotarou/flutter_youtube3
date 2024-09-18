@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../controllers/video/video.dart';
 import '../../extensions/extensions.dart';
 import '../../models/video_model.dart';
+import '../home_screen.dart';
 import 'video_detail_display_alert.dart';
 import 'youtube_dialog.dart';
 
@@ -77,6 +78,16 @@ class _BunruiDetailDisplayAlertState
 
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context);
+
+                        Navigator.pushReplacement(
+                          // ignore: use_build_context_synchronously
+                          context,
+                          // ignore: inference_failure_on_instance_creation, always_specify_types
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const HomeScreen(),
+                          ),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -115,6 +126,7 @@ class _BunruiDetailDisplayAlertState
                 ),
               ],
             ),
+            const SizedBox(height: 10),
             Expanded(child: displayBunruiDetail()),
           ],
         ),
@@ -161,21 +173,31 @@ class _BunruiDetailDisplayAlertState
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    width: 100,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          'https://img.youtube.com/vi/${element.youtubeId}/mqdefault.jpg',
-                      placeholder: (BuildContext context, String url) =>
-                          Image.asset('assets/images/no_image.png'),
-                      errorWidget:
-                          (BuildContext context, String url, Object error) =>
+                  Column(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 100,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'https://img.youtube.com/vi/${element.youtubeId}/mqdefault.jpg',
+                          placeholder: (BuildContext context, String url) =>
+                              Image.asset('assets/images/no_image.png'),
+                          errorWidget: (BuildContext context, String url,
+                                  Object error) =>
                               const Icon(Icons.error),
-                    ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        element.playtime,
+                        style: const TextStyle(color: Colors.yellowAccent),
+                      ),
+                    ],
                   ),
                   const SizedBox(width: 20),
                   Expanded(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Text(
                           element.title,

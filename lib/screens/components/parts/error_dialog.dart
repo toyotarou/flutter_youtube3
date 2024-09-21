@@ -10,8 +10,8 @@ Future<void> error_dialog(
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Colors.blueGrey.withOpacity(0.3),
-        title: Text(title),
-        content: Text(content),
+        title: Text(title, style: const TextStyle(fontSize: 12)),
+        content: Text(content, style: const TextStyle(fontSize: 12)),
       );
     },
   );

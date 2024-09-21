@@ -267,6 +267,9 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                       if (bunruiBlankVideoList.isNotEmpty) ...<Widget>[
                         const SizedBox(height: 20),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.pinkAccent.withOpacity(0.2)),
                           onPressed: () async {
                             final Map<String, CategoryModel>
                                 bunruiBlankSettingMap = await ref.read(
@@ -475,9 +478,15 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                 ),
                 Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                        children: getVideoList(bunrui: bunruiLevelList[i])),
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Wrap(
+                            children: getVideoList(bunrui: bunruiLevelList[i])),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -574,7 +583,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
           padding: const EdgeInsets.all(5),
           height: 50,
           color: Colors.blueAccent.withOpacity(0.5),
-          child: const Scaffold(body: Text('F')),
+          child: const Scaffold(body: Center(child: Icon(Icons.movie))),
         ),
         childWhenDragging: Container(
           width: 110,
@@ -583,7 +592,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
           height: 50,
           color: Colors.white.withOpacity(0.1),
           child: Text(
-            'now dragging',
+            '',
             style: TextStyle(color: Colors.white.withOpacity(0.6)),
           ),
         ),

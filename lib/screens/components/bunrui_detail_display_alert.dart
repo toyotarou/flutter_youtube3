@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../controllers/video/video.dart';
 import '../../extensions/extensions.dart';
 import '../../models/video_model.dart';
 import '../home_screen.dart';
+import 'parts/error_dialog.dart';
 import 'video_detail_display_alert.dart';
 import 'youtube_dialog.dart';
 
@@ -24,6 +26,9 @@ class _BunruiDetailDisplayAlertState
     extends ConsumerState<BunruiDetailDisplayAlert> {
   @override
   Widget build(BuildContext context) {
+    final List<String> selectedYoutubeIdList = ref.watch(videoProvider
+        .select((VideoState value) => value.selectedYoutubeIdList));
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
@@ -42,6 +47,24 @@ class _BunruiDetailDisplayAlertState
                   children: <Widget>[
                     GestureDetector(
                       onTap: () async {
+                        if (selectedYoutubeIdList.isEmpty) {
+                          // ignore: always_specify_types
+                          Future.delayed(
+                            Duration.zero,
+                            () {
+                              if (mounted) {
+                                return error_dialog(
+                                    // ignore: use_build_context_synchronously
+                                    context: context,
+                                    title: '登録できません。',
+                                    content: '動画が選択されていません。');
+                              }
+                            },
+                          );
+
+                          return;
+                        }
+
                         await ref
                             .read(videoProvider.notifier)
                             .manipulateVideoList(bunrui: 'special');
@@ -68,6 +91,24 @@ class _BunruiDetailDisplayAlertState
                     const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () async {
+                        if (selectedYoutubeIdList.isEmpty) {
+                          // ignore: always_specify_types
+                          Future.delayed(
+                            Duration.zero,
+                            () {
+                              if (mounted) {
+                                return error_dialog(
+                                    // ignore: use_build_context_synchronously
+                                    context: context,
+                                    title: '登録できません。',
+                                    content: '動画が選択されていません。');
+                              }
+                            },
+                          );
+
+                          return;
+                        }
+
                         await ref
                             .read(videoProvider.notifier)
                             .manipulateVideoList(bunrui: 'erase');
@@ -105,6 +146,24 @@ class _BunruiDetailDisplayAlertState
                     const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () async {
+                        if (selectedYoutubeIdList.isEmpty) {
+                          // ignore: always_specify_types
+                          Future.delayed(
+                            Duration.zero,
+                            () {
+                              if (mounted) {
+                                return error_dialog(
+                                    // ignore: use_build_context_synchronously
+                                    context: context,
+                                    title: '登録できません。',
+                                    content: '動画が選択されていません。');
+                              }
+                            },
+                          );
+
+                          return;
+                        }
+
                         await ref
                             .read(videoProvider.notifier)
                             .manipulateVideoList(bunrui: 'delete');

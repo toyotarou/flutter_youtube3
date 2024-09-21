@@ -12,7 +12,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(useMaterial3: false),
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(fontWeight: FontWeight.bold),
+          backgroundColor: Colors.transparent,
+        ),
+        scrollbarTheme: const ScrollbarThemeData().copyWith(
+            thumbColor:
+                MaterialStateProperty.all(Colors.greenAccent.withOpacity(0.4))),
+        useMaterial3: false,
+        colorScheme: ColorScheme.fromSwatch(brightness: Brightness.dark),
+      ),
       home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );

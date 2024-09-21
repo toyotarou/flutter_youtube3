@@ -179,4 +179,8 @@ class Video extends _$Video {
       // ignore: always_specify_types
     }).catchError((error, _) => utility.showError('予期せぬエラーが発生しました'));
   }
+
+  ///
+  void clearSelectedYoutubeIdList() =>
+      state = state.copyWith(selectedYoutubeIdList: <String>[]);
 }

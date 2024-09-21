@@ -54,6 +54,10 @@ class _BunruiDetailDisplayAlertState
 
                         ref.read(videoProvider.notifier).getYoutubeList();
 
+                        ref
+                            .read(videoProvider.notifier)
+                            .clearSelectedYoutubeIdList();
+
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context);
                       },
@@ -75,6 +79,10 @@ class _BunruiDetailDisplayAlertState
                             .manipulateVideoList(bunrui: 'erase');
 
                         ref.read(videoProvider.notifier).getYoutubeList();
+
+                        ref
+                            .read(videoProvider.notifier)
+                            .clearSelectedYoutubeIdList();
 
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context);
@@ -108,6 +116,10 @@ class _BunruiDetailDisplayAlertState
                             .manipulateVideoList(bunrui: 'delete');
 
                         ref.read(videoProvider.notifier).getYoutubeList();
+
+                        ref
+                            .read(videoProvider.notifier)
+                            .clearSelectedYoutubeIdList();
 
                         // ignore: use_build_context_synchronously
                         Navigator.pop(context);

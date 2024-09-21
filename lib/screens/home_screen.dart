@@ -181,7 +181,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         flexibleSpace: Stack(
-          children: [
+          children: <Widget>[
             Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -290,6 +290,10 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                                 .getYoutubeList();
 
                             ref.read(videoProvider.notifier).clearVideoList();
+
+                            ref
+                                .read(videoProvider.notifier)
+                                .clearSelectedYoutubeIdList();
 
                             Navigator.pushReplacement(
                               // ignore: use_build_context_synchronously
@@ -440,40 +444,43 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
 
           builder: (BuildContext context, List<VideoModel?> candidateData,
               List<dynamic> rejectedData) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      YoutubeDialog(
-                        context: context,
-                        widget: BunruiDetailDisplayAlert(
-                            bunrui: bunruiLevelList[i]),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 5),
-                      decoration: BoxDecoration(
-                          color: Colors.greenAccent.withOpacity(0.2)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(bunruiLevelList[i]),
-                          Text((videoListMap[bunruiLevelList[i]] != null)
-                              ? videoListMap[bunruiLevelList[i]]!
-                                  .length
-                                  .toString()
-                              : '0')
-                        ],
-                      ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    YoutubeDialog(
+                      context: context,
+                      widget:
+                          BunruiDetailDisplayAlert(bunrui: bunruiLevelList[i]),
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.greenAccent.withOpacity(0.2)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(bunruiLevelList[i]),
+                        Text((videoListMap[bunruiLevelList[i]] != null)
+                            ? videoListMap[bunruiLevelList[i]]!
+                                .length
+                                .toString()
+                            : '0')
+                      ],
                     ),
                   ),
-                  Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
-                  Wrap(children: getVideoList(bunrui: bunruiLevelList[i])),
-                ],
-              ),
+                ),
+                Divider(color: Colors.white.withOpacity(0.4), thickness: 5),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                        children: getVideoList(bunrui: bunruiLevelList[i])),
+                  ),
+                ),
+              ],
             );
           },
         ),

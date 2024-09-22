@@ -22,6 +22,8 @@ dependencies:
   riverpod_annotation: ^2.3.5
   cached_network_image:
   font_awesome_flutter: ^10.7.0
+  flutter_launcher_icons: ^0.14.0
+  flutter_native_splash: ^2.4.1
 
 dev_dependencies:
   flutter_test:
@@ -40,3 +42,15 @@ flutter:
 
   assets:
     - assets/images/
+
+flutter_native_splash:
+  image: "assets/images/playbutton.png"
+  color: "212121"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/ic_launcher.png"
+
+  adaptive_icon_background: "#212121"
+  adaptive_icon_foreground: "assets/images/ic_launcher.png"

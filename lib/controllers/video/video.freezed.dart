@@ -24,6 +24,8 @@ mixin _$VideoState {
   Map<String, CategoryModel> get bunruiBlankSettingMap =>
       throw _privateConstructorUsedError;
   List<String> get selectedYoutubeIdList => throw _privateConstructorUsedError;
+  List<SpecialVideoModel> get specialModelList =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $VideoStateCopyWith<VideoState> get copyWith =>
@@ -41,7 +43,8 @@ abstract class $VideoStateCopyWith<$Res> {
       Map<String, List<VideoModel>> videoListMap,
       Map<String, VideoModel> videoModelMap,
       Map<String, CategoryModel> bunruiBlankSettingMap,
-      List<String> selectedYoutubeIdList});
+      List<String> selectedYoutubeIdList,
+      List<SpecialVideoModel> specialModelList});
 }
 
 /// @nodoc
@@ -62,6 +65,7 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
     Object? videoModelMap = null,
     Object? bunruiBlankSettingMap = null,
     Object? selectedYoutubeIdList = null,
+    Object? specialModelList = null,
   }) {
     return _then(_value.copyWith(
       videoList: null == videoList
@@ -84,6 +88,10 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
           ? _value.selectedYoutubeIdList
           : selectedYoutubeIdList // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      specialModelList: null == specialModelList
+          ? _value.specialModelList
+          : specialModelList // ignore: cast_nullable_to_non_nullable
+              as List<SpecialVideoModel>,
     ) as $Val);
   }
 }
@@ -101,7 +109,8 @@ abstract class _$$VideoStateImplCopyWith<$Res>
       Map<String, List<VideoModel>> videoListMap,
       Map<String, VideoModel> videoModelMap,
       Map<String, CategoryModel> bunruiBlankSettingMap,
-      List<String> selectedYoutubeIdList});
+      List<String> selectedYoutubeIdList,
+      List<SpecialVideoModel> specialModelList});
 }
 
 /// @nodoc
@@ -120,6 +129,7 @@ class __$$VideoStateImplCopyWithImpl<$Res>
     Object? videoModelMap = null,
     Object? bunruiBlankSettingMap = null,
     Object? selectedYoutubeIdList = null,
+    Object? specialModelList = null,
   }) {
     return _then(_$VideoStateImpl(
       videoList: null == videoList
@@ -142,6 +152,10 @@ class __$$VideoStateImplCopyWithImpl<$Res>
           ? _value._selectedYoutubeIdList
           : selectedYoutubeIdList // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      specialModelList: null == specialModelList
+          ? _value._specialModelList
+          : specialModelList // ignore: cast_nullable_to_non_nullable
+              as List<SpecialVideoModel>,
     ));
   }
 }
@@ -157,12 +171,14 @@ class _$VideoStateImpl implements _VideoState {
           const <String, VideoModel>{},
       final Map<String, CategoryModel> bunruiBlankSettingMap =
           const <String, CategoryModel>{},
-      final List<String> selectedYoutubeIdList = const <String>[]})
+      final List<String> selectedYoutubeIdList = const <String>[],
+      final List<SpecialVideoModel> specialModelList = const []})
       : _videoList = videoList,
         _videoListMap = videoListMap,
         _videoModelMap = videoModelMap,
         _bunruiBlankSettingMap = bunruiBlankSettingMap,
-        _selectedYoutubeIdList = selectedYoutubeIdList;
+        _selectedYoutubeIdList = selectedYoutubeIdList,
+        _specialModelList = specialModelList;
 
   final List<VideoModel> _videoList;
   @override
@@ -211,9 +227,19 @@ class _$VideoStateImpl implements _VideoState {
     return EqualUnmodifiableListView(_selectedYoutubeIdList);
   }
 
+  final List<SpecialVideoModel> _specialModelList;
+  @override
+  @JsonKey()
+  List<SpecialVideoModel> get specialModelList {
+    if (_specialModelList is EqualUnmodifiableListView)
+      return _specialModelList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_specialModelList);
+  }
+
   @override
   String toString() {
-    return 'VideoState(videoList: $videoList, videoListMap: $videoListMap, videoModelMap: $videoModelMap, bunruiBlankSettingMap: $bunruiBlankSettingMap, selectedYoutubeIdList: $selectedYoutubeIdList)';
+    return 'VideoState(videoList: $videoList, videoListMap: $videoListMap, videoModelMap: $videoModelMap, bunruiBlankSettingMap: $bunruiBlankSettingMap, selectedYoutubeIdList: $selectedYoutubeIdList, specialModelList: $specialModelList)';
   }
 
   @override
@@ -230,7 +256,9 @@ class _$VideoStateImpl implements _VideoState {
             const DeepCollectionEquality()
                 .equals(other._bunruiBlankSettingMap, _bunruiBlankSettingMap) &&
             const DeepCollectionEquality()
-                .equals(other._selectedYoutubeIdList, _selectedYoutubeIdList));
+                .equals(other._selectedYoutubeIdList, _selectedYoutubeIdList) &&
+            const DeepCollectionEquality()
+                .equals(other._specialModelList, _specialModelList));
   }
 
   @override
@@ -240,7 +268,8 @@ class _$VideoStateImpl implements _VideoState {
       const DeepCollectionEquality().hash(_videoListMap),
       const DeepCollectionEquality().hash(_videoModelMap),
       const DeepCollectionEquality().hash(_bunruiBlankSettingMap),
-      const DeepCollectionEquality().hash(_selectedYoutubeIdList));
+      const DeepCollectionEquality().hash(_selectedYoutubeIdList),
+      const DeepCollectionEquality().hash(_specialModelList));
 
   @JsonKey(ignore: true)
   @override
@@ -255,7 +284,8 @@ abstract class _VideoState implements VideoState {
       final Map<String, List<VideoModel>> videoListMap,
       final Map<String, VideoModel> videoModelMap,
       final Map<String, CategoryModel> bunruiBlankSettingMap,
-      final List<String> selectedYoutubeIdList}) = _$VideoStateImpl;
+      final List<String> selectedYoutubeIdList,
+      final List<SpecialVideoModel> specialModelList}) = _$VideoStateImpl;
 
   @override
   List<VideoModel> get videoList;
@@ -267,6 +297,8 @@ abstract class _VideoState implements VideoState {
   Map<String, CategoryModel> get bunruiBlankSettingMap;
   @override
   List<String> get selectedYoutubeIdList;
+  @override
+  List<SpecialVideoModel> get specialModelList;
   @override
   @JsonKey(ignore: true)
   _$$VideoStateImplCopyWith<_$VideoStateImpl> get copyWith =>

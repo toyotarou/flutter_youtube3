@@ -5,6 +5,7 @@ import '../../data/http/client.dart';
 import '../../data/http/path.dart';
 import '../../extensions/extensions.dart';
 import '../../models/category_model.dart';
+import '../../models/special_video_model.dart';
 import '../../models/video_model.dart';
 import '../../utility/utility.dart';
 
@@ -22,6 +23,7 @@ class VideoState with _$VideoState {
     @Default(<String, CategoryModel>{})
     Map<String, CategoryModel> bunruiBlankSettingMap,
     @Default(<String>[]) List<String> selectedYoutubeIdList,
+    @Default(<SpecialVideoModel>[]) List<SpecialVideoModel> specialModelList,
   }) = _VideoState;
 }
 
@@ -104,6 +106,34 @@ class Video extends _$Video {
       }
 
       state = state.copyWith(videoListMap: map, videoModelMap: map2);
+
+      // ignore: always_specify_types
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+
+  ///
+  Future<void> getSpecialVideo() async {
+    final Utility utility = Utility();
+
+    final HttpClient client = ref.read(httpClientProvider);
+
+    // ignore: always_specify_types
+    await client.post(path: APIPath.getSpecialVideo).then((value) {
+      final List<SpecialVideoModel> list = <SpecialVideoModel>[];
+
+      // ignore: avoid_dynamic_calls
+      if (value['data'] != null) {
+        // ignore: avoid_dynamic_calls
+        for (int i = 0; i < value['data'].length.toString().toInt(); i++) {
+          list.add(SpecialVideoModel.fromJson(
+              // ignore: avoid_dynamic_calls
+              value['data'][i] as Map<String, dynamic>));
+        }
+      }
+
+      state = state.copyWith(specialModelList: list);
 
       // ignore: always_specify_types
     }).catchError((error, _) {

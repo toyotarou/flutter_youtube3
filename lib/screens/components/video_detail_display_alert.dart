@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/video_model.dart';
+import '../../utility/function.dart';
 
 class VideoDetailDisplayAlert extends ConsumerStatefulWidget {
   const VideoDetailDisplayAlert({super.key, required this.videoModel});
@@ -58,8 +59,9 @@ class _VideoDetailDisplayAlertState
                       'https://img.youtube.com/vi/${widget.videoModel.youtubeId}/mqdefault.jpg',
                   placeholder: (BuildContext context, String url) =>
                       Image.asset('assets/images/no_image.png'),
-                  errorWidget: (BuildContext context, String url, Object error) =>
-                      const Icon(Icons.error),
+                  errorWidget:
+                      (BuildContext context, String url, Object error) =>
+                          const Icon(Icons.error),
                 ),
                 const SizedBox(height: 10),
                 Text(widget.videoModel.youtubeId),
@@ -79,9 +81,12 @@ class _VideoDetailDisplayAlertState
                   children: <Widget>[
                     if (widget.videoModel.url != '') ...<Widget>[
                       IconButton(
-                        onPressed: () {},
-                        icon:
-                            const Icon(Icons.link, size: 40, color: Colors.white),
+                        onPressed: () {
+                          openBrowser(
+                              youtubeId: widget.videoModel.youtubeId, ref: ref);
+                        },
+                        icon: const Icon(Icons.link,
+                            size: 40, color: Colors.white),
                       ),
                     ],
                     const SizedBox(width: 20),

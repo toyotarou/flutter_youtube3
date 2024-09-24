@@ -84,7 +84,9 @@ class _VideoSearchResultAlertState
                   color: Colors.white.withOpacity(0.3),
                 ),
               ),
-              color: Colors.black.withOpacity(0.3),
+              color: (selectedYoutubeIdList.contains(youtubeIdList[i]))
+                  ? Colors.greenAccent.withOpacity(0.1)
+                  : Colors.black.withOpacity(0.3),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

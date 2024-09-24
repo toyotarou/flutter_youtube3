@@ -32,6 +32,8 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
 
   List<ScrollController> _scrollControllers = <ScrollController>[];
 
+  final ScrollController homeListScrollController = ScrollController();
+
   ///
   @override
   void initState() {
@@ -400,7 +402,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                   decoration:
-                      BoxDecoration(color: Colors.greenAccent.withOpacity(0.2)),
+                      BoxDecoration(color: Colors.blueAccent.withOpacity(0.2)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -507,14 +509,21 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
               widget: const NewCategoryInputAlert(flag: 'bunrui'),
             );
           },
-          child: Container(
-            margin: const EdgeInsets.all(5),
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.blueAccent.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Text('NEW'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.all(5),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Text('NEW'),
+              ),
+              Container(),
+            ],
           ),
         ),
       );
@@ -611,15 +620,20 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
       list.add(const SizedBox(height: 40));
     }
 
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) => list[index],
-            childCount: list.length,
+    return Scrollbar(
+      controller: homeListScrollController,
+      thumbVisibility: true,
+      child: CustomScrollView(
+        controller: homeListScrollController,
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) => list[index],
+              childCount: list.length,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

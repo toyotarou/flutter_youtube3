@@ -231,7 +231,9 @@ class _BunruiDetailDisplayAlertState
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
-            color: Colors.black.withOpacity(0.3),
+            color: (selectedYoutubeIdList.contains(element.youtubeId))
+                ? Colors.greenAccent.withOpacity(0.1)
+                : Colors.black.withOpacity(0.3),
           ),
           child: Column(
             children: <Widget>[

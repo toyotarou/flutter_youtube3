@@ -213,4 +213,20 @@ class Video extends _$Video {
   ///
   void clearSelectedYoutubeIdList() =>
       state = state.copyWith(selectedYoutubeIdList: <String>[]);
+
+  ///
+  Future<void> updateVideoPlayedAt({required String youtubeId}) async {
+    final Utility utility = Utility();
+
+    final HttpClient client = ref.read(httpClientProvider);
+
+    final Map<String, dynamic> uploadData = <String, dynamic>{};
+    uploadData['date'] = DateTime.now().yyyymmdd;
+    uploadData['youtube_id'] = youtubeId;
+
+    await client
+        .post(path: APIPath.updateVideoPlayedAt, body: uploadData)
+        // ignore: always_specify_types
+        .catchError((error, _) => utility.showError('予期せぬエラーが発生しました'));
+  }
 }

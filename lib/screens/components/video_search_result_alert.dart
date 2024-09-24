@@ -245,10 +245,7 @@ class _VideoSearchResultAlertState
         SliverAppBar(
           pinned: true,
           title: const Text(''),
-          leading: const Icon(
-            Icons.check_box_outline_blank,
-            color: Colors.transparent,
-          ),
+          automaticallyImplyLeading: false,
           actions: <Widget>[
             Row(
               children: <Widget>[

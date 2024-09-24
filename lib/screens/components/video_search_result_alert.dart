@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../controllers/category/category.dart';
 import '../../controllers/search/search.dart';
@@ -8,6 +9,8 @@ import '../../controllers/video/video.dart';
 import '../../extensions/extensions.dart';
 import '../../models/category_model.dart';
 import '../../models/video_model.dart';
+import '../home_screen.dart';
+import 'parts/error_dialog.dart';
 import 'video_detail_display_alert.dart';
 import 'youtube_dialog.dart';
 
@@ -50,6 +53,9 @@ class _VideoSearchResultAlertState
 
     final List<String> bunruiList = getBunruiList();
     bunruiList.sort();
+
+    final List<String> selectedYoutubeIdList = ref.watch(videoProvider
+        .select((VideoState value) => value.selectedYoutubeIdList));
 
     final String searchWord = ref
         .read(searchProvider.select((SearchState value) => value.searchWord));
@@ -211,6 +217,22 @@ class _VideoSearchResultAlertState
                     ),
                   ],
                 ),
+
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () {
+                      ref.read(videoProvider.notifier).setSelectedYoutubeIdList(
+                          youtubeId: youtubeIdList[i]);
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.circlePlus,
+                      color: (selectedYoutubeIdList.contains(youtubeIdList[i]))
+                          ? Colors.greenAccent.withOpacity(0.6)
+                          : Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -220,6 +242,160 @@ class _VideoSearchResultAlertState
 
     return CustomScrollView(
       slivers: <Widget>[
+        SliverAppBar(
+          pinned: true,
+          title: const Text(''),
+          leading: const Icon(
+            Icons.check_box_outline_blank,
+            color: Colors.transparent,
+          ),
+          actions: <Widget>[
+            Row(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () async {
+                    if (selectedYoutubeIdList.isEmpty) {
+                      // ignore: always_specify_types
+                      Future.delayed(
+                        Duration.zero,
+                        () {
+                          if (mounted) {
+                            return error_dialog(
+                                // ignore: use_build_context_synchronously
+                                context: context,
+                                title: '登録できません。',
+                                content: '動画が選択されていません。');
+                          }
+                        },
+                      );
+
+                      return;
+                    }
+
+                    await ref
+                        .read(videoProvider.notifier)
+                        .manipulateVideoList(bunrui: 'special');
+
+                    ref.read(videoProvider.notifier).getYoutubeList();
+
+                    ref
+                        .read(videoProvider.notifier)
+                        .clearSelectedYoutubeIdList();
+
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.green[900]?.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text('選出', style: TextStyle(fontSize: 12)),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () async {
+                    if (selectedYoutubeIdList.isEmpty) {
+                      // ignore: always_specify_types
+                      Future.delayed(
+                        Duration.zero,
+                        () {
+                          if (mounted) {
+                            return error_dialog(
+                                // ignore: use_build_context_synchronously
+                                context: context,
+                                title: '登録できません。',
+                                content: '動画が選択されていません。');
+                          }
+                        },
+                      );
+
+                      return;
+                    }
+
+                    await ref
+                        .read(videoProvider.notifier)
+                        .manipulateVideoList(bunrui: 'erase');
+
+                    ref.read(videoProvider.notifier).getYoutubeList();
+
+                    ref
+                        .read(videoProvider.notifier)
+                        .clearSelectedYoutubeIdList();
+
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+
+                    Navigator.pushReplacement(
+                      // ignore: use_build_context_synchronously
+                      context,
+                      // ignore: inference_failure_on_instance_creation, always_specify_types
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const HomeScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.green[900]?.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text('分類消去', style: TextStyle(fontSize: 12)),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () async {
+                    if (selectedYoutubeIdList.isEmpty) {
+                      // ignore: always_specify_types
+                      Future.delayed(
+                        Duration.zero,
+                        () {
+                          if (mounted) {
+                            return error_dialog(
+                                // ignore: use_build_context_synchronously
+                                context: context,
+                                title: '登録できません。',
+                                content: '動画が選択されていません。');
+                          }
+                        },
+                      );
+
+                      return;
+                    }
+
+                    await ref
+                        .read(videoProvider.notifier)
+                        .manipulateVideoList(bunrui: 'delete');
+
+                    ref.read(videoProvider.notifier).getYoutubeList();
+
+                    ref
+                        .read(videoProvider.notifier)
+                        .clearSelectedYoutubeIdList();
+
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.green[900]?.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text('削除', style: TextStyle(fontSize: 12)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) => list[index],

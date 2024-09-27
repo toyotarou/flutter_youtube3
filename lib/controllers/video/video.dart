@@ -24,6 +24,10 @@ class VideoState with _$VideoState {
     Map<String, CategoryModel> bunruiBlankSettingMap,
     @Default(<String>[]) List<String> selectedYoutubeIdList,
     @Default(<SpecialVideoModel>[]) List<SpecialVideoModel> specialModelList,
+    @Default(<String, List<VideoModel>>{})
+    Map<String, List<VideoModel>> publishDateVideoMap,
+    @Default(<String, List<VideoModel>>{})
+    Map<String, List<VideoModel>> getDateVideoMap,
   }) = _VideoState;
 }
 
@@ -81,6 +85,9 @@ class Video extends _$Video {
 
       final Map<String, VideoModel> map2 = <String, VideoModel>{};
 
+      final Map<String, List<VideoModel>> map3 = <String, List<VideoModel>>{};
+      final Map<String, List<VideoModel>> map4 = <String, List<VideoModel>>{};
+
       // ignore: avoid_dynamic_calls
       if (value['data'] != null) {
         // ignore: avoid_dynamic_calls
@@ -92,6 +99,13 @@ class Video extends _$Video {
           map[val.bunrui] = <VideoModel>[];
 
           map2[val.youtubeId] = val;
+
+          if (val.pubdate != null) {
+            map3[val.pubdate!.yyyymmdd] = <VideoModel>[];
+          }
+
+          map4['${val.getdate.substring(0, 4)}-${val.getdate.substring(4, 6)}-${val.getdate.substring(6)}'] =
+              <VideoModel>[];
         }
 
         // ignore: avoid_dynamic_calls
@@ -102,10 +116,22 @@ class Video extends _$Video {
               VideoModel.fromJson(value['data'][i] as Map<String, dynamic>);
 
           map[val.bunrui]?.add(val);
+
+          if (val.pubdate != null) {
+            map3[val.pubdate!.yyyymmdd]?.add(val);
+          }
+
+          map4['${val.getdate.substring(0, 4)}-${val.getdate.substring(4, 6)}-${val.getdate.substring(6)}']
+              ?.add(val);
         }
       }
 
-      state = state.copyWith(videoListMap: map, videoModelMap: map2);
+      state = state.copyWith(
+        videoListMap: map,
+        videoModelMap: map2,
+        publishDateVideoMap: map3,
+        getDateVideoMap: map4,
+      );
 
       // ignore: always_specify_types
     }).catchError((error, _) {

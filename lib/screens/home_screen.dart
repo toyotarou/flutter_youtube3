@@ -14,6 +14,7 @@ import 'components/bunrui_detail_display_alert.dart';
 import 'components/new_category_input_alert.dart';
 import 'components/video_detail_display_alert.dart';
 import 'components/video_search_result_alert.dart';
+import 'components/yearly_calendar_alert.dart';
 import 'components/youtube_dialog.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -210,7 +211,14 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
         ),
         actions: <Widget>[
           IconButton(
+            onPressed: () => YoutubeDialog(
+                context: context, widget: const YearlyCalendarAlert()),
+            icon: const Icon(Icons.calendar_month),
+          ),
+          IconButton(
             onPressed: () {
+              ref.read(videoProvider.notifier).clearSelectedYoutubeIdList();
+
               Navigator.pushReplacement(
                   context,
                   // ignore: inference_failure_on_instance_creation, always_specify_types
@@ -387,12 +395,14 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
         .select((CategoryState value) => value.selectedCategory2));
 
     if (selectedCategory1 == '' && selectedCategory2 == '') {
+      //---------------------// starItemList
+
       final List<SpecialVideoModel> specialModelList = ref.watch(
           videoProvider.select((VideoState value) => value.specialModelList));
 
       for (final SpecialVideoModel element in specialModelList) {
         list.add(Container(
-          margin: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 50),
+          margin: const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 20),
           child: Column(
             children: <Widget>[
               Container(
@@ -457,6 +467,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
                                 e.title,
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 12),
                               ),
                             )),
                           ],
@@ -470,6 +481,8 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
           ),
         ));
       }
+
+      //================================//
     } else {
       bunruiLevelList.clear();
 
@@ -662,7 +675,7 @@ class _BunruiScreenState extends ConsumerState<HomeScreen> {
             child: Stack(
               children: <Widget>[
                 Container(
-                  width: context.screenSize.width * 0.2,
+                  width: context.screenSize.width * 0.25,
                   padding: const EdgeInsets.all(5),
                   child: CachedNetworkImage(
                     imageUrl:

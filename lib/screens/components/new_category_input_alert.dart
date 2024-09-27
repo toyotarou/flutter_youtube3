@@ -93,7 +93,7 @@ class _NewCategoryInputAlertState extends ConsumerState<NewCategoryInputAlert> {
             TextField(
               // ignore: avoid_bool_literals_in_conditional_expressions
               enabled: (widget.flag == 'bunrui') ? false : true,
-              controller: category1EditingController,
+              controller: category2EditingController,
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding:

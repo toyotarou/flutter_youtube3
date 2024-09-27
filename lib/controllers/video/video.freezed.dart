@@ -26,8 +26,14 @@ mixin _$VideoState {
   List<String> get selectedYoutubeIdList => throw _privateConstructorUsedError;
   List<SpecialVideoModel> get specialModelList =>
       throw _privateConstructorUsedError;
+  Map<String, List<VideoModel>> get publishDateVideoMap =>
+      throw _privateConstructorUsedError;
+  Map<String, List<VideoModel>> get getDateVideoMap =>
+      throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VideoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $VideoStateCopyWith<VideoState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,7 +50,9 @@ abstract class $VideoStateCopyWith<$Res> {
       Map<String, VideoModel> videoModelMap,
       Map<String, CategoryModel> bunruiBlankSettingMap,
       List<String> selectedYoutubeIdList,
-      List<SpecialVideoModel> specialModelList});
+      List<SpecialVideoModel> specialModelList,
+      Map<String, List<VideoModel>> publishDateVideoMap,
+      Map<String, List<VideoModel>> getDateVideoMap});
 }
 
 /// @nodoc
@@ -57,6 +65,8 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of VideoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -66,6 +76,8 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
     Object? bunruiBlankSettingMap = null,
     Object? selectedYoutubeIdList = null,
     Object? specialModelList = null,
+    Object? publishDateVideoMap = null,
+    Object? getDateVideoMap = null,
   }) {
     return _then(_value.copyWith(
       videoList: null == videoList
@@ -92,6 +104,14 @@ class _$VideoStateCopyWithImpl<$Res, $Val extends VideoState>
           ? _value.specialModelList
           : specialModelList // ignore: cast_nullable_to_non_nullable
               as List<SpecialVideoModel>,
+      publishDateVideoMap: null == publishDateVideoMap
+          ? _value.publishDateVideoMap
+          : publishDateVideoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<VideoModel>>,
+      getDateVideoMap: null == getDateVideoMap
+          ? _value.getDateVideoMap
+          : getDateVideoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<VideoModel>>,
     ) as $Val);
   }
 }
@@ -110,7 +130,9 @@ abstract class _$$VideoStateImplCopyWith<$Res>
       Map<String, VideoModel> videoModelMap,
       Map<String, CategoryModel> bunruiBlankSettingMap,
       List<String> selectedYoutubeIdList,
-      List<SpecialVideoModel> specialModelList});
+      List<SpecialVideoModel> specialModelList,
+      Map<String, List<VideoModel>> publishDateVideoMap,
+      Map<String, List<VideoModel>> getDateVideoMap});
 }
 
 /// @nodoc
@@ -121,6 +143,8 @@ class __$$VideoStateImplCopyWithImpl<$Res>
       _$VideoStateImpl _value, $Res Function(_$VideoStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VideoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -130,6 +154,8 @@ class __$$VideoStateImplCopyWithImpl<$Res>
     Object? bunruiBlankSettingMap = null,
     Object? selectedYoutubeIdList = null,
     Object? specialModelList = null,
+    Object? publishDateVideoMap = null,
+    Object? getDateVideoMap = null,
   }) {
     return _then(_$VideoStateImpl(
       videoList: null == videoList
@@ -156,6 +182,14 @@ class __$$VideoStateImplCopyWithImpl<$Res>
           ? _value._specialModelList
           : specialModelList // ignore: cast_nullable_to_non_nullable
               as List<SpecialVideoModel>,
+      publishDateVideoMap: null == publishDateVideoMap
+          ? _value._publishDateVideoMap
+          : publishDateVideoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<VideoModel>>,
+      getDateVideoMap: null == getDateVideoMap
+          ? _value._getDateVideoMap
+          : getDateVideoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<VideoModel>>,
     ));
   }
 }
@@ -172,13 +206,20 @@ class _$VideoStateImpl implements _VideoState {
       final Map<String, CategoryModel> bunruiBlankSettingMap =
           const <String, CategoryModel>{},
       final List<String> selectedYoutubeIdList = const <String>[],
-      final List<SpecialVideoModel> specialModelList = const []})
+      final List<SpecialVideoModel> specialModelList =
+          const <SpecialVideoModel>[],
+      final Map<String, List<VideoModel>> publishDateVideoMap =
+          const <String, List<VideoModel>>{},
+      final Map<String, List<VideoModel>> getDateVideoMap =
+          const <String, List<VideoModel>>{}})
       : _videoList = videoList,
         _videoListMap = videoListMap,
         _videoModelMap = videoModelMap,
         _bunruiBlankSettingMap = bunruiBlankSettingMap,
         _selectedYoutubeIdList = selectedYoutubeIdList,
-        _specialModelList = specialModelList;
+        _specialModelList = specialModelList,
+        _publishDateVideoMap = publishDateVideoMap,
+        _getDateVideoMap = getDateVideoMap;
 
   final List<VideoModel> _videoList;
   @override
@@ -237,9 +278,28 @@ class _$VideoStateImpl implements _VideoState {
     return EqualUnmodifiableListView(_specialModelList);
   }
 
+  final Map<String, List<VideoModel>> _publishDateVideoMap;
+  @override
+  @JsonKey()
+  Map<String, List<VideoModel>> get publishDateVideoMap {
+    if (_publishDateVideoMap is EqualUnmodifiableMapView)
+      return _publishDateVideoMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_publishDateVideoMap);
+  }
+
+  final Map<String, List<VideoModel>> _getDateVideoMap;
+  @override
+  @JsonKey()
+  Map<String, List<VideoModel>> get getDateVideoMap {
+    if (_getDateVideoMap is EqualUnmodifiableMapView) return _getDateVideoMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_getDateVideoMap);
+  }
+
   @override
   String toString() {
-    return 'VideoState(videoList: $videoList, videoListMap: $videoListMap, videoModelMap: $videoModelMap, bunruiBlankSettingMap: $bunruiBlankSettingMap, selectedYoutubeIdList: $selectedYoutubeIdList, specialModelList: $specialModelList)';
+    return 'VideoState(videoList: $videoList, videoListMap: $videoListMap, videoModelMap: $videoModelMap, bunruiBlankSettingMap: $bunruiBlankSettingMap, selectedYoutubeIdList: $selectedYoutubeIdList, specialModelList: $specialModelList, publishDateVideoMap: $publishDateVideoMap, getDateVideoMap: $getDateVideoMap)';
   }
 
   @override
@@ -258,7 +318,11 @@ class _$VideoStateImpl implements _VideoState {
             const DeepCollectionEquality()
                 .equals(other._selectedYoutubeIdList, _selectedYoutubeIdList) &&
             const DeepCollectionEquality()
-                .equals(other._specialModelList, _specialModelList));
+                .equals(other._specialModelList, _specialModelList) &&
+            const DeepCollectionEquality()
+                .equals(other._publishDateVideoMap, _publishDateVideoMap) &&
+            const DeepCollectionEquality()
+                .equals(other._getDateVideoMap, _getDateVideoMap));
   }
 
   @override
@@ -269,9 +333,13 @@ class _$VideoStateImpl implements _VideoState {
       const DeepCollectionEquality().hash(_videoModelMap),
       const DeepCollectionEquality().hash(_bunruiBlankSettingMap),
       const DeepCollectionEquality().hash(_selectedYoutubeIdList),
-      const DeepCollectionEquality().hash(_specialModelList));
+      const DeepCollectionEquality().hash(_specialModelList),
+      const DeepCollectionEquality().hash(_publishDateVideoMap),
+      const DeepCollectionEquality().hash(_getDateVideoMap));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VideoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VideoStateImplCopyWith<_$VideoStateImpl> get copyWith =>
@@ -285,7 +353,9 @@ abstract class _VideoState implements VideoState {
       final Map<String, VideoModel> videoModelMap,
       final Map<String, CategoryModel> bunruiBlankSettingMap,
       final List<String> selectedYoutubeIdList,
-      final List<SpecialVideoModel> specialModelList}) = _$VideoStateImpl;
+      final List<SpecialVideoModel> specialModelList,
+      final Map<String, List<VideoModel>> publishDateVideoMap,
+      final Map<String, List<VideoModel>> getDateVideoMap}) = _$VideoStateImpl;
 
   @override
   List<VideoModel> get videoList;
@@ -300,7 +370,14 @@ abstract class _VideoState implements VideoState {
   @override
   List<SpecialVideoModel> get specialModelList;
   @override
-  @JsonKey(ignore: true)
+  Map<String, List<VideoModel>> get publishDateVideoMap;
+  @override
+  Map<String, List<VideoModel>> get getDateVideoMap;
+
+  /// Create a copy of VideoState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VideoStateImplCopyWith<_$VideoStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
